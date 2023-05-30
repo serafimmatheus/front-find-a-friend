@@ -1,0 +1,92 @@
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import miniLogo from "../../../assets/mini-logo.png";
+import { Search } from "@/icons/icons";
+import MySelect from "@/components/MySelect";
+
+export default function Amigos() {
+  const searchParams = useSearchParams();
+  const estado = searchParams.get("estado");
+  const cidade = searchParams.get("cidade");
+
+  return (
+    <div className="bg-white w-screen lg:h-screen">
+      <div className="flex w-full h-full">
+        <div className="filtros w-1/3 h-full bg-red-500">
+          <div className="bg-red-600 py-16 flex flex-col px-12">
+            <div className="w-[45px] h-[46px]">
+              <Image src={miniLogo} alt="mini logo" />
+            </div>
+
+            <div className="flex mt-10">
+              <section className="w-[67px] h-[60px] flex flex-col justify-center items-center border text-white border-red-500 rounded-[20px] my-4 sm:mr-2">
+                <option value="PE">PE</option>
+              </section>
+
+              <section className="w-[280px] h-[60px] bg-red-500 flex flex-col justify-center items-center text-white rounded-[20px] my-4 sm:mr-4">
+                <option value="recife">Recife</option>
+              </section>
+
+              <button className="w-[60px] h-[60px] bg-yellow flex flex-col justify-center items-center text-white my-4 rounded-[20px]">
+                <Search />
+              </button>
+            </div>
+          </div>
+
+          <div className="px-12 mt-10">
+            <h2 className="text-white font-nunito font-extrabold text-xl ">
+              Filtros
+            </h2>
+
+            <div className="flex flex-col mt-8">
+              <label className="text-white text-xs font-medium font-nunito mb-2">
+                Idade
+              </label>
+              <select className="h-[60px] bg-red-600 rounded-2xl px-4 optional:text-white optional:text-base optional:font-nunito optional:font-extrabold outline-none">
+                <option value="filhote">Filhote</option>
+                <option value="adulto">Adulto</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col mt-8">
+              <label className="text-white text-xs font-medium font-nunito mb-2">
+                Nível de Energia
+              </label>
+              <select className="h-[60px] bg-red-600 rounded-2xl px-4 optional:text-white optional:text-base optional:font-nunito optional:font-extrabold outline-none">
+                <option value="1">Pouquissima energia</option>
+                <option value="2">Pouca energia</option>
+                <option value="3">Média energia</option>
+                <option value="4">Muita energia</option>
+                <option value="5">Extra energia</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col mt-8">
+              <label className="text-white text-xs font-medium font-nunito mb-2">
+                Porte do animal
+              </label>
+              <select className="h-[60px] bg-red-600 rounded-2xl px-4 optional:text-white optional:text-base optional:font-nunito optional:font-extrabold outline-none">
+                <option value="pequenino">Pequenino</option>
+                <option value="medio">Médio</option>
+                <option value="grande">Grande</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col mt-8">
+              <label className="text-white text-xs font-medium font-nunito mb-2">
+                Nível de independência
+              </label>
+              <select className="h-[60px] bg-red-600 rounded-2xl px-4 optional:text-white optional:text-base optional:font-nunito optional:font-extrabold outline-none">
+                <option value="baixo">Baixo</option>
+                <option value="medio">Médio</option>
+                <option value="independente">Independente</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div className="navigation w-2/3 h-full"></div>
+      </div>
+    </div>
+  );
+}
