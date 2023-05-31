@@ -2,7 +2,8 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import miniLogo from "../../../assets/mini-logo.png";
 import { Search } from "@/icons/icons";
-import MySelect from "@/components/MySelect";
+import imagemDoDoguinho from "../../../assets/jamie-street-UtrE5DcgEyg-unsplash.jpg";
+import celo from "../../../assets/celo.png";
 
 export default function Amigos() {
   const searchParams = useSearchParams();
@@ -85,7 +86,41 @@ export default function Amigos() {
           </div>
         </div>
 
-        <div className="navigation w-2/3 h-full"></div>
+        <div className="navigation w-2/3 h-full pr-10 pl-5 bg-gray-100">
+          <div className="flex justify-between items-center pt-40">
+            <h1 className="font-nunito text-xl font-normal text-gray-400">
+              Encontre <b>354</b> amigos na sua cidade
+            </h1>
+
+            <select className="h-[60px] bg-red-200 rounded-2xl px-4 optional:text-gray-400 optional:text-base optional:font-nunito optional:font-normal outline-none">
+              <option value="1">Gatos e Cachorros</option>
+              <option value="2">Gatos</option>
+              <option value="3">Cachorros</option>
+            </select>
+          </div>
+
+          <div className="">
+            <div className="w-72 h-72 bg-white relative rounded-3xl">
+              <div className="p-[2px] w-full relative">
+                <Image
+                  className="rounded-3xl"
+                  src={imagemDoDoguinho}
+                  width={1000}
+                  height={100}
+                  alt="imagens dos pets"
+                />
+              </div>
+
+              <div className="flex justify-center items-center w-11 h-11 bg-red-500 rounded-lg absolute top-48 left-1/2 -translate-x-1/2">
+                <Image src={celo} alt="celo" />
+              </div>
+
+              <div className="mt-8 text-center">
+                <h4>Alfredo</h4>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
