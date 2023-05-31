@@ -11,7 +11,7 @@ export default function Amigos() {
   const cidade = searchParams.get("cidade");
 
   return (
-    <div className="bg-white w-screen lg:h-screen">
+    <div className="bg-white w-screen lg:h-screen overflow-hidden">
       <div className="flex w-full h-full">
         <div className="filtros w-1/3 h-full bg-red-500">
           <div className="bg-red-600 py-16 flex flex-col px-12">
@@ -34,7 +34,7 @@ export default function Amigos() {
             </div>
           </div>
 
-          <div className="px-12 mt-10">
+          <div className="px-12 mt-10 h-2/3 overflow-auto">
             <h2 className="text-white font-nunito font-extrabold text-xl ">
               Filtros
             </h2>
@@ -99,26 +99,38 @@ export default function Amigos() {
             </select>
           </div>
 
-          <div className="">
-            <div className="w-72 h-72 bg-white relative rounded-3xl">
-              <div className="p-[2px] w-full relative">
-                <Image
-                  className="rounded-3xl"
-                  src={imagemDoDoguinho}
-                  width={1000}
-                  height={100}
-                  alt="imagens dos pets"
-                />
-              </div>
+          <div className="flex flex-wrap justify-start gap-5 overflow-auto w-full h-2/3 mt-10 pb-10 pl-2">
+            {[
+              0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+              18.19, 20, 20, 20,
+            ].map((elem) => {
+              return (
+                <div
+                  key={elem}
+                  className="w-[280px] h-72 bg-white relative rounded-3xl "
+                >
+                  <div className="p-[2px] w-full relative">
+                    <Image
+                      className="rounded-3xl "
+                      src={imagemDoDoguinho}
+                      width={1000}
+                      height={100}
+                      alt="imagens dos pets"
+                    />
+                  </div>
 
-              <div className="flex justify-center items-center w-11 h-11 bg-red-500 rounded-lg absolute top-48 left-1/2 -translate-x-1/2">
-                <Image src={celo} alt="celo" />
-              </div>
+                  <div className="flex justify-center items-center w-11 h-11 bg-red-500 rounded-lg border-white border-[2px] absolute top-48 left-1/2 -translate-x-1/2">
+                    <Image src={celo} alt="celo" />
+                  </div>
 
-              <div className="mt-8 text-center">
-                <h4>Alfredo</h4>
-              </div>
-            </div>
+                  <div className="mt-8 text-center">
+                    <h4 className="text-gray-400 text-lg font-nunito font-bold">
+                      Alfredo
+                    </h4>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
