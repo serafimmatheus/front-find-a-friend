@@ -4,11 +4,18 @@ import miniLogo from "../../../assets/mini-logo.png";
 import { Search } from "@/icons/icons";
 import imagemDoDoguinho from "../../../assets/jamie-street-UtrE5DcgEyg-unsplash.jpg";
 import celo from "../../../assets/celo.png";
+import { useRouter } from "next/router";
 
 export default function Amigos() {
   const searchParams = useSearchParams();
   const estado = searchParams.get("estado");
   const cidade = searchParams.get("cidade");
+
+  const route = useRouter();
+
+  function irParaDetalhesDoPet(id: string) {
+    route.push(`/amigos/detalhes/${id}`);
+  }
 
   return (
     <div className="bg-white w-screen lg:h-screen overflow-hidden">
@@ -107,7 +114,10 @@ export default function Amigos() {
               return (
                 <div
                   key={elem}
-                  className="w-[280px] h-72 bg-white relative rounded-3xl "
+                  className="w-[280px] h-72 bg-white relative rounded-3xl cursor-pointer text-gray-400 hover:text-white hover:bg-gray-400"
+                  onClick={() =>
+                    irParaDetalhesDoPet("8adsija80di09asd-jda8sijads-8a0dijwks")
+                  }
                 >
                   <div className="p-[2px] w-full relative">
                     <Image
@@ -124,9 +134,7 @@ export default function Amigos() {
                   </div>
 
                   <div className="mt-8 text-center">
-                    <h4 className="text-gray-400 text-lg font-nunito font-bold">
-                      Alfredo
-                    </h4>
+                    <h4 className="text-lg font-nunito font-bold">Alfredo</h4>
                   </div>
                 </div>
               );
