@@ -27,6 +27,9 @@ module.exports = {
         200: "#8FA7B2",
         400: "#0D3B66",
       },
+      orange: {
+        400: "#F27006",
+      },
     },
   },
   plugins: [],
