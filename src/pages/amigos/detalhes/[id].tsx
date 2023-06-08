@@ -1,7 +1,14 @@
 import Image from "next/image";
 import miniLogo from "../../../assets/mini-logo.png";
 import fotoPrincipal from "../../../assets/Foto.png";
-import { EspacoAmplo, FlechaParaEsquerda, Phone, Raio } from "@/icons/icons";
+import {
+  Atencao,
+  EspacoAmplo,
+  FlechaParaEsquerda,
+  Phone,
+  Raio,
+  WhatsApp,
+} from "@/icons/icons";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -32,8 +39,9 @@ export default function DetailsPet() {
           <FlechaParaEsquerda />
         </button>
       </div>
-      <div className="flex w-full h-full bg-red-150">
-        <div className="flex flex-col w-full h-full items-center">
+
+      <div className="flex w-full h-full bg-red-150 overflow-hidden pb-20">
+        <div className="flex flex-col w-full h-full items-center overflow-auto ">
           <div className="flex">
             <h2 className="font-nunito text-lg font-semibold text-gray-200 my-10">
               Seu novo amigo
@@ -139,8 +147,8 @@ export default function DetailsPet() {
                 </div>
               </div>
 
-              <div className="flex w-full justify-center mt-10">
-                <button className="flex bg-gray-200 rounded-md px-8 py-4 gap-5">
+              <div className="flex w-full ml-24 mt-10">
+                <button className="flex bg-linear-100 rounded-md px-8 py-4 gap-5">
                   <Phone />
                   81 1234.4567
                 </button>
@@ -149,6 +157,52 @@ export default function DetailsPet() {
 
             <div className="w-full my-10 px-20">
               <div className="w-full h-[2px] min-h-[2px] bg-gray-75"></div>
+            </div>
+
+            <div className="flex flex-col px-20">
+              <h2 className="font-nunito text-gray-400 font-bold text-3xl">
+                Requisitos para adoção
+              </h2>
+              <div className="mt-14 flex flex-col">
+                <div className="flex items-center gap-5 px-14 py-4 mb-4 border border-red-500 rounded-xl">
+                  <Atencao />
+                  <p className="font-nunito text-red-500 font-semibold text-lg">
+                    Local grande para o animal correr e brincar.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-5 px-14 py-4 mb-4 border border-red-500 rounded-xl">
+                  <Atencao />
+                  <p className="font-nunito text-red-500 font-semibold text-lg">
+                    Proibido apartamento.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-5 px-14 py-4 mb-4 border border-red-500 rounded-xl">
+                  <Atencao />
+                  <p className="font-nunito text-red-500 font-semibold text-lg">
+                    Ambiente frio, pois possui muito pelo.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-5 px-14 py-4 mb-4 border border-red-500 rounded-xl">
+                  <Atencao />
+                  <p className="font-nunito text-red-500 font-semibold text-lg">
+                    Cão com intolerância a lactose.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex px-20 mt-20 mb-20">
+              <div className="flex bg-green-400 w-full h-16 rounded-3xl justify-center items-center text-white cursor-pointer">
+                <a
+                  href="https://api.whatsapp.com/send?phone=5541987495188"
+                  target="_blank"
+                >
+                  Entrar em contato
+                </a>
+              </div>
             </div>
           </div>
         </div>

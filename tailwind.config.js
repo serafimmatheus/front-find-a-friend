@@ -11,6 +11,9 @@ module.exports = {
     },
 
     colors: {
+      linear: {
+        100: "#E6F7FB",
+      },
       red: {
         100: "#F5F8FA",
         150: "#FDECED",
@@ -25,10 +28,14 @@ module.exports = {
         75: "#D3E2E5",
         100: "#D9D9D9",
         200: "#8FA7B2",
+        300: "#114A80",
         400: "#0D3B66",
       },
       orange: {
         400: "#F27006",
+      },
+      green: {
+        400: "#3CDC8C",
       },
     },
   },

@@ -5,16 +5,24 @@ import { Search } from "@/icons/icons";
 import imagemDoDoguinho from "../../../assets/jamie-street-UtrE5DcgEyg-unsplash.jpg";
 import celo from "../../../assets/celo.png";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 export default function Amigos() {
   const searchParams = useSearchParams();
   const estado = searchParams.get("estado");
   const cidade = searchParams.get("cidade");
 
+  const [estadoSeach, setEstadoSearch] = useState("");
+  const [cidadeSeach, setCidadeSearch] = useState("");
+
   const route = useRouter();
 
   function irParaDetalhesDoPet(id: string) {
     route.push(`/amigos/detalhes/${id}`);
+  }
+
+  function searchPagePets2() {
+    route.push(`/amigos/${estado}/${cidade}`);
   }
 
   return (
@@ -27,15 +35,52 @@ export default function Amigos() {
             </div>
 
             <div className="flex mt-10">
-              <section className="w-[67px] h-[60px] flex flex-col justify-center items-center border text-white border-red-500 rounded-[20px] my-4 sm:mr-2">
+              <select
+                onChange={(e) => setEstadoSearch(e.target.value)}
+                value={estado ? estado : ""}
+                className="w-[72px] h-[72px] px-2 bg-red-500 border outline-none text-white border-white rounded-[20px] my-4 sm:mr-2"
+              >
+                <option value="AC">AC</option>
+                <option value="AL">AL</option>
+                <option value="AP">AP</option>
+                <option value="AM">AM</option>
+                <option value="BA">BA</option>
+                <option value="CE">CE</option>
+                <option value="DF">DF</option>
+                <option value="ES">ES</option>
+                <option value="GO">GO</option>
+                <option value="MA">MA</option>
+                <option value="MT">MT</option>
+                <option value="MS">MS</option>
+                <option value="MG">MG</option>
+                <option value="PA">PA</option>
+                <option value="PB">PB</option>
+                <option value="PR">PR</option>
                 <option value="PE">PE</option>
-              </section>
+                <option value="PI">PI</option>
+                <option value="RJ">RJ</option>
+                <option value="RN">RN</option>
+                <option value="RS">RS</option>
+                <option value="RO">RO</option>
+                <option value="RR">RR</option>
+                <option value="SC">SC</option>
+                <option value="SP">SP</option>
+                <option value="SE">SE</option>
+                <option value="TO">TO</option>
+              </select>
 
-              <section className="w-[280px] h-[60px] bg-red-500 flex flex-col justify-center items-center text-white rounded-[20px] my-4 sm:mr-4">
-                <option value="recife">Recife</option>
-              </section>
+              <input
+                className="w-[280px] h-[72px] outline-none placeholder:text-gray-100 px-4 bg-red-500 flex flex-col justify-center items-center text-white rounded-[20px] my-4 sm:mr-4"
+                type="text"
+                onChange={(e) => setCidadeSearch(e.target.value)}
+                value={cidade ? cidade : ""}
+                placeholder="Digite sua cidade"
+              />
 
-              <button className="w-[60px] h-[60px] bg-yellow flex flex-col justify-center items-center text-white my-4 rounded-[20px]">
+              <button
+                onClick={searchPagePets2}
+                className="w-[72px] h-[72px] bg-yellow flex flex-col justify-center items-center text-white my-4 rounded-[20px]"
+              >
                 <Search />
               </button>
             </div>
@@ -61,11 +106,9 @@ export default function Amigos() {
                 Nível de Energia
               </label>
               <select className="h-[60px] bg-red-600 rounded-2xl px-4 optional:text-white optional:text-base optional:font-nunito optional:font-extrabold outline-none">
-                <option value="1">Pouquissima energia</option>
                 <option value="2">Pouca energia</option>
                 <option value="3">Média energia</option>
                 <option value="4">Muita energia</option>
-                <option value="5">Extra energia</option>
               </select>
             </div>
 
