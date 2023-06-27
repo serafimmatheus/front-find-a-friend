@@ -15,6 +15,9 @@ export default function Home() {
   const route = useRouter();
 
   function searchPagePets() {
+    if (!estado && !cidade) {
+      return alert("Por favor, insira um estado e uma cidade.");
+    }
     route.push(`/amigos/${estado}/${cidade}`);
   }
   return (
@@ -50,6 +53,7 @@ export default function Home() {
             <select
               onChange={(e) => setEstado(e.target.value)}
               className="w-[72px] h-[72px] px-2 bg-red-500 border outline-none text-white border-white rounded-[20px] my-4 sm:mr-2"
+              defaultValue={"AC"}
             >
               <option value="AC">AC</option>
               <option value="AL">AL</option>

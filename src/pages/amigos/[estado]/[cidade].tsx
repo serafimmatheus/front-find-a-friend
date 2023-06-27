@@ -1,21 +1,26 @@
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 import miniLogo from "../../../assets/mini-logo.png";
 import { Search } from "@/icons/icons";
 import imagemDoDoguinho from "../../../assets/jamie-street-UtrE5DcgEyg-unsplash.jpg";
+import imagemDoGatinho from "../../../assets/gato.png";
 import celo from "../../../assets/celo.png";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePets } from "@/context/hooks/usePetsProvider";
+import SkeletonPets from "@/components/skeletonPets";
+
+interface IPropsPetsArray {}
 
 export default function Amigos() {
-  const searchParams = useSearchParams();
-  const estado = searchParams.get("estado");
-  const cidade = searchParams.get("cidade");
+  const route = useRouter();
+
+  const [estado, setEstado] = useState<string>("");
+  const [cidade, setCidade] = useState<string>("");
 
   const [estadoSeach, setEstadoSearch] = useState("");
   const [cidadeSeach, setCidadeSearch] = useState("");
 
-  const route = useRouter();
+  const { handlePetsByCidadeAndEstado, pets, isLoading } = usePets();
 
   function irParaDetalhesDoPet(id: string) {
     route.push(`/amigos/detalhes/${id}`);
@@ -24,6 +29,19 @@ export default function Amigos() {
   function searchPagePets2() {
     route.push(`/amigos/${estado}/${cidade}`);
   }
+
+  async function handlePetsPage(estado: string, cidade: string) {
+    // await handlePetsByCidadeAndEstado(estado, cidade);
+    route.push(`/amigos/${estado}/${cidade}`);
+  }
+
+  async function handlePets(estado: string, cidade: string) {
+    await handlePetsByCidadeAndEstado(estado, cidade);
+  }
+
+  useEffect(() => {
+    handlePets(route.query.estado, route.query.cidade);
+  }, [route.query.estado, route.query.cidade]);
 
   return (
     <div className="bg-white w-screen lg:h-screen overflow-hidden">
@@ -36,9 +54,9 @@ export default function Amigos() {
 
             <div className="flex mt-10">
               <select
-                onChange={(e) => setEstadoSearch(e.target.value)}
-                value={estado ? estado : ""}
                 className="w-[72px] h-[72px] px-2 bg-red-500 border outline-none text-white border-white rounded-[20px] my-4 sm:mr-2"
+                defaultValue={route.query.estado}
+                onChange={(e) => setEstadoSearch(e.target.value)}
               >
                 <option value="AC">AC</option>
                 <option value="AL">AL</option>
@@ -72,13 +90,13 @@ export default function Amigos() {
               <input
                 className="w-[280px] h-[72px] outline-none placeholder:text-gray-100 px-4 bg-red-500 flex flex-col justify-center items-center text-white rounded-[20px] my-4 sm:mr-4"
                 type="text"
+                defaultValue={route.query.cidade}
                 onChange={(e) => setCidadeSearch(e.target.value)}
-                value={cidade ? cidade : ""}
                 placeholder="Digite sua cidade"
               />
 
               <button
-                onClick={searchPagePets2}
+                onClick={() => handlePetsPage(estadoSeach, cidadeSeach)}
                 className="w-[72px] h-[72px] bg-yellow flex flex-col justify-center items-center text-white my-4 rounded-[20px]"
               >
                 <Search />
@@ -139,7 +157,7 @@ export default function Amigos() {
         <div className="navigation w-2/3 h-full pr-10 pl-5 bg-gray-100">
           <div className="flex justify-between items-center pt-40">
             <h1 className="font-nunito text-xl font-normal text-gray-400">
-              Encontre <b>354</b> amigos na sua cidade
+              Encontre <b>{pets.length}</b> amigos na sua cidade
             </h1>
 
             <select className="h-[60px] bg-red-200 rounded-2xl px-4 optional:text-gray-400 optional:text-base optional:font-nunito optional:font-normal outline-none">
@@ -150,38 +168,55 @@ export default function Amigos() {
           </div>
 
           <div className="flex flex-wrap justify-start gap-5 overflow-auto w-full h-2/3 mt-10 pb-10 pl-2">
-            {[
-              0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-              18.19, 20, 20, 20,
-            ].map((elem) => {
-              return (
-                <div
-                  key={elem}
-                  className="w-[280px] h-72 bg-white relative rounded-3xl cursor-pointer text-gray-400 hover:text-white hover:bg-gray-400"
-                  onClick={() =>
-                    irParaDetalhesDoPet("8adsija80di09asd-jda8sijads-8a0dijwks")
-                  }
-                >
-                  <div className="p-[2px] w-full relative">
-                    <Image
-                      className="rounded-3xl "
-                      src={imagemDoDoguinho}
-                      width={1000}
-                      height={100}
-                      alt="imagens dos pets"
-                    />
-                  </div>
+            {isLoading ? (
+              <SkeletonPets />
+            ) : pets.length === 0 ? (
+              <div className="flex w-full border border-dashed animate-pulse justify-center items-center">
+                <p className="text-2xl text-gray-400 font-nunito font-semibold">
+                  Não encontramos nenhum pet para na sua região
+                </p>
+              </div>
+            ) : (
+              pets.map((elem) => {
+                return (
+                  <div
+                    key={elem.id}
+                    className="w-[280px] h-72 bg-white relative rounded-3xl cursor-pointer text-gray-400 hover:text-white hover:bg-gray-400"
+                    onClick={() => irParaDetalhesDoPet(elem.id)}
+                  >
+                    <div className="p-[2px] w-full relative">
+                      <Image
+                        className="rounded-3xl "
+                        src={
+                          elem.gatoOuCachorro === "gato"
+                            ? imagemDoGatinho
+                            : imagemDoDoguinho
+                        }
+                        width={1000}
+                        height={100}
+                        alt="imagens dos pets"
+                      />
+                    </div>
 
-                  <div className="flex justify-center items-center w-11 h-11 bg-red-500 rounded-lg border-white border-[2px] absolute top-48 left-1/2 -translate-x-1/2">
-                    <Image src={celo} alt="celo" />
-                  </div>
+                    {elem.gatoOuCachorro === "gato" ? (
+                      <div className="flex justify-center items-center w-11 h-11 bg-red-500 rounded-lg border-white border-[2px] absolute top-48 left-1/2 -translate-x-1/2">
+                        <Image src={celo} alt="celo" />
+                      </div>
+                    ) : (
+                      <div className="flex justify-center items-center w-11 h-11 bg-green-400 rounded-lg border-white border-[2px] absolute top-48 left-1/2 -translate-x-1/2">
+                        <Image src={celo} alt="celo" />
+                      </div>
+                    )}
 
-                  <div className="mt-8 text-center">
-                    <h4 className="text-lg font-nunito font-bold">Alfredo</h4>
+                    <div className="mt-8 text-center">
+                      <h4 className="text-lg font-nunito font-bold">
+                        {elem.nome}
+                      </h4>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         </div>
       </div>

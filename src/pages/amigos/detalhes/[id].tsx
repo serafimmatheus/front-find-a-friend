@@ -7,14 +7,21 @@ import {
   FlechaParaEsquerda,
   Phone,
   Raio,
-  WhatsApp,
 } from "@/icons/icons";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePets } from "@/context/hooks/usePetsProvider";
+import { api } from "@/data/api";
+
+interface IPropsIDPet {
+  id: string;
+}
 
 export default function DetailsPet() {
   const route = useRouter();
   const [lista, setLista] = useState([0, 1, 2, 3, 4, 5]);
+
+  const { handlePetById, pet } = usePets();
 
   function backPage() {
     route.back();
@@ -24,6 +31,14 @@ export default function DetailsPet() {
     const novaLista = lista.forEach((elem) => (elem == num ? "sim" : "nao"));
     console.log(novaLista);
   }
+
+  async function handlePetPage(id: string) {
+    await handlePetById(id);
+  }
+
+  useEffect(() => {
+    handlePetPage(route.query.id);
+  }, [route.query.id]);
 
   return (
     <div className="flex w-screen h-screen">
@@ -77,12 +92,11 @@ export default function DetailsPet() {
 
             <div className="flex flex-col mt-20 px-20">
               <h2 className="font-nunito font-extrabold text-5xl text-gray-400">
-                Alfredo
+                {pet.nome}
               </h2>
 
               <p className="font-nunito font-semibold text-lg text-gray-400 my-10">
-                Eu sou um lindo doguinho de 3 anos, um jovem bricalhão que adora
-                fazer companhia, uma bagunça mas também ama uma soneca.
+                {pet.sobre}
               </p>
             </div>
 
@@ -96,7 +110,7 @@ export default function DetailsPet() {
                 </div>
 
                 <span className="font-nunito font-semibold text-lg text-gray-400">
-                  Muita energia
+                  {pet.nivelEnergia?.toLocaleUpperCase()}
                 </span>
               </div>
 
@@ -106,7 +120,7 @@ export default function DetailsPet() {
                 </div>
 
                 <span className="font-nunito font-semibold text-lg text-gray-400 text-center">
-                  Espaço amplo
+                  {pet.ambiente?.toLocaleUpperCase()}
                 </span>
               </div>
 
@@ -118,7 +132,7 @@ export default function DetailsPet() {
                 </div>
 
                 <span className="font-nunito font-semibold text-lg text-gray-400">
-                  Pequenino
+                  {pet.porte?.toLocaleUpperCase()}
                 </span>
               </div>
             </div>
@@ -139,10 +153,11 @@ export default function DetailsPet() {
 
                 <div className="flex flex-col ml-8">
                   <h3 className="font-nunito text-gray-400 font-bold text-3xl">
-                    Seu Cãopanheiro
+                    {pet.petId?.organizacao}
                   </h3>
                   <p className="font-nunito text-gray-400 font-semibold text-base mt-2">
-                    Rua do meio, 123, Boa viagem, Recive - PE
+                    {pet.petId?.endereco}, {pet.petId?.cidade} -{" "}
+                    {pet.petId?.estado}
                   </p>
                 </div>
               </div>
@@ -150,7 +165,7 @@ export default function DetailsPet() {
               <div className="flex w-full ml-24 mt-10">
                 <button className="flex bg-linear-100 rounded-md px-8 py-4 gap-5">
                   <Phone />
-                  81 1234.4567
+                  {pet.petId?.whatsapp}
                 </button>
               </div>
             </div>
@@ -163,7 +178,7 @@ export default function DetailsPet() {
               <h2 className="font-nunito text-gray-400 font-bold text-3xl">
                 Requisitos para adoção
               </h2>
-              <div className="mt-14 flex flex-col">
+              {/* <div className="mt-14 flex flex-col">
                 <div className="flex items-center gap-5 px-14 py-4 mb-4 border border-red-500 rounded-xl">
                   <Atencao />
                   <p className="font-nunito text-red-500 font-semibold text-lg">
@@ -191,14 +206,15 @@ export default function DetailsPet() {
                     Cão com intolerância a lactose.
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className="flex px-20 mt-20 mb-20">
               <div className="flex bg-green-400 w-full h-16 rounded-3xl justify-center items-center text-white cursor-pointer">
                 <a
-                  href="https://api.whatsapp.com/send?phone=5541987495188"
+                  href={`https://api.whatsapp.com/send?phone=${pet.petId?.whatsapp}`}
                   target="_blank"
+                  rel="noreferrer"
                 >
                   Entrar em contato
                 </a>
