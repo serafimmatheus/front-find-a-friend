@@ -5,14 +5,54 @@ import { FlechaParaEsquerda, Voltar } from "@/icons/icons";
 import { useRouter } from "next/router";
 import RoutePrivate from "@/components/routePrivates";
 import { useAuthContext } from "@/context/hooks/useAuthProvider";
+import { useEffect, useState } from "react";
+import { api } from "@/data/api";
 
 export default function CadastroPets() {
   const route = useRouter();
 
-  const { usuario, sairDaAplicacao } = useAuthContext();
+  const [nome, setNome] = useState("");
+  const [sobre, setSobre] = useState("");
+  const [idade, setIdade] = useState("");
+  const [porte, setPorte] = useState("");
+  const [nivelEnergia, setNivelEnergia] = useState("");
+  const [nivelIndependencia, setNivelIndependencia] = useState("");
+  const [ambiente, setAmbiente] = useState("");
+  const [gatoOuCachorro, setGatoOuCachorro] = useState("");
+
+  const { usuario, sairDaAplicacao, token } = useAuthContext();
 
   function backPage() {
     route.push("/");
+  }
+
+  async function handleSubmitForm() {
+    const data = {
+      nome,
+      sobre,
+      idade,
+      porte,
+      nivelEnergia,
+      nivelIndependencia,
+      ambiente,
+      gatoOuCachorro,
+      organizacaoId: usuario.id,
+    };
+
+    await api
+      .post(`/pets`, data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "token-find-a-friends"
+          )}`,
+        },
+      })
+      .then((_) => {
+        route.push("/");
+      })
+      .catch((_) => {
+        alert("Erro ao cadastrar pet");
+      });
   }
 
   return (
@@ -76,6 +116,7 @@ export default function CadastroPets() {
                 <input
                   className="border border-gray-75 rounded-xl h-16 px-5"
                   type="text"
+                  onChange={(e) => setNome(e.target.value)}
                 />
               </div>
 
@@ -87,7 +128,10 @@ export default function CadastroPets() {
                   </span>
                 </label>
 
-                <textarea className="resize-none border border-gray-75 rounded-xl h-[120px] px-5 py-4"></textarea>
+                <textarea
+                  className="resize-none border border-gray-75 rounded-xl h-[120px] px-5 py-4"
+                  onChange={(e) => setSobre(e.target.value)}
+                />
               </div>
 
               <div className="flex flex-col mb-8">
@@ -95,7 +139,11 @@ export default function CadastroPets() {
                   Idade
                 </label>
 
-                <select className="border border-gray-75 rounded-xl h-16 px-5">
+                <select
+                  className="border border-gray-75 rounded-xl h-16 px-5"
+                  onChange={(e) => setIdade(e.target.value)}
+                >
+                  <option>Escolha uma opção</option>
                   <option value="filhote">Filhote</option>
                   <option value="adulto">Adulto</option>
                 </select>
@@ -106,8 +154,12 @@ export default function CadastroPets() {
                   Porte
                 </label>
 
-                <select className="border border-gray-75 rounded-xl h-16 px-5">
-                  <option value="pequenino">Pequenino</option>
+                <select
+                  className="border border-gray-75 rounded-xl h-16 px-5"
+                  onChange={(e) => setPorte(e.target.value)}
+                >
+                  <option>Escolha uma opção</option>
+                  <option value="pequeno">Pequeno</option>
                   <option value="medio">Médio</option>
                   <option value="grande">Grande</option>
                 </select>
@@ -118,10 +170,14 @@ export default function CadastroPets() {
                   Nível de energia
                 </label>
 
-                <select className="border border-gray-75 rounded-xl h-16 px-5">
-                  <option value="baixa">Baixa</option>
+                <select
+                  className="border border-gray-75 rounded-xl h-16 px-5"
+                  onChange={(e) => setNivelEnergia(e.target.value)}
+                >
+                  <option>Escolha uma opção</option>
+                  <option value="pouca">Pouca</option>
                   <option value="media">Média</option>
-                  <option value="alta">Alta</option>
+                  <option value="muita">Muita</option>
                 </select>
               </div>
 
@@ -130,18 +186,53 @@ export default function CadastroPets() {
                   Nível de independência
                 </label>
 
-                <select className="border border-gray-75 rounded-xl h-16 px-5">
-                  <option value="baixa">
-                    Baixa (precisa de companhia sempre)
+                <select
+                  className="border border-gray-75 rounded-xl h-16 px-5"
+                  onChange={(e) => setNivelIndependencia(e.target.value)}
+                >
+                  <option>Escolha uma opção</option>
+                  <option value="baixo">
+                    Baixo (precisa de companhia sempre)
                   </option>
-                  <option value="media">
-                    Média (precisa de pouca companhia)
+                  <option value="medio">
+                    Médio (precisa de pouca companhia)
                   </option>
-                  <option value="alta">Alta (independênte)</option>
+                  <option value="alto">Alto (independênte)</option>
                 </select>
               </div>
 
-              <div className="flex flex-col w-full font-nunito mb-8">
+              <div className="flex flex-col mb-8">
+                <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                  Ambiente
+                </label>
+
+                <select
+                  className="border border-gray-75 rounded-xl h-16 px-5"
+                  onChange={(e) => setAmbiente(e.target.value)}
+                >
+                  <option>Escolha uma opção</option>
+                  <option value="pequeno">Pequeno</option>
+                  <option value="medio">Médio</option>
+                  <option value="amplo">Amplo</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col mb-8">
+                <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                  Gato/Cachorro
+                </label>
+
+                <select
+                  className="border border-gray-75 rounded-xl h-16 px-5"
+                  onChange={(e) => setGatoOuCachorro(e.target.value)}
+                >
+                  <option>Escolha uma opção</option>
+                  <option value="gato">Gato</option>
+                  <option value="cachorro">Cachorro</option>
+                </select>
+              </div>
+
+              {/* <div className="flex flex-col w-full font-nunito mb-8">
                 <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
                   Fotos
                 </label>
@@ -152,9 +243,9 @@ export default function CadastroPets() {
                   </h2>
                   <input type="file" className="hidden" multiple />
                 </div>
-              </div>
+              </div> */}
 
-              <div className="flex flex-col mt-8">
+              {/* <div className="flex flex-col mt-8">
                 <h2 className="flex font-nunito text-gray-400 font-bold text-3xl">
                   Requisitos para adoção
                 </h2>
@@ -174,6 +265,15 @@ export default function CadastroPets() {
                     placeholder="Defina um requisito..."
                   />
                 </div>
+              </div> */}
+
+              <div className="flex flex-col w-full mt-8 mb-8">
+                <button
+                  className="w-full border rounded-xl bg-gray-400 text-white py-4 hover:bg-gray-300"
+                  onClick={handleSubmitForm}
+                >
+                  Cadastrar
+                </button>
               </div>
             </div>
           </div>

@@ -24,6 +24,7 @@ interface AuthContextIProps {
   usuario: any;
   sairDaAplicacao(): Promise<void>;
   isLogin: boolean;
+  token: string | undefined;
 }
 
 export const AuthContext = createContext<AuthContextIProps>(
@@ -37,6 +38,7 @@ function AuthRouter() {
 export function AuthProvider({ children }: IPropsAuthProvider) {
   const [usuario, setUsuario] = useState<IPropsUsuario>({} as IPropsUsuario);
   const [isLogin, setIsLogin] = useState(false);
+  const [token, setToken] = useState<string>();
 
   const route = AuthRouter();
 
@@ -45,7 +47,7 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
       .post("/login", { email, password })
       .then((responde) => {
         setUsuario(responde.data.user);
-
+        setToken(responde.data.token);
         localStorage.setItem("token-find-a-friends", responde.data.token);
         localStorage.setItem(
           "user-find-a-friends",
@@ -61,9 +63,9 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
   }
 
   async function sairDaAplicacao() {
+    setUsuario({} as any);
     localStorage.removeItem("token-find-a-friends");
     localStorage.removeItem("user-find-a-friends");
-    route.push("/login");
   }
 
   useEffect(() => {
@@ -82,7 +84,9 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
   }, [usuario]);
 
   return (
-    <AuthContext.Provider value={{ login, usuario, sairDaAplicacao, isLogin }}>
+    <AuthContext.Provider
+      value={{ login, usuario, sairDaAplicacao, isLogin, token }}
+    >
       {children}
     </AuthContext.Provider>
   );
