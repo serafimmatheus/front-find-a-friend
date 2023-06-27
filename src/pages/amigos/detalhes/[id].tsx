@@ -37,7 +37,8 @@ export default function DetailsPet() {
   }
 
   useEffect(() => {
-    handlePetPage(route.query.id);
+    const id = route.query.id?.toString() ?? "";
+    handlePetPage(id);
   }, [route.query.id]);
 
   return (

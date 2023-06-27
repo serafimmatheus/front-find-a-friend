@@ -40,7 +40,13 @@ export default function Amigos() {
   }
 
   useEffect(() => {
-    handlePets(route.query.estado, route.query.cidade);
+    const estado = Array.isArray(route.query.estado)
+      ? route.query.estado.join(",")
+      : "";
+    const cidade = Array.isArray(route.query.cidade)
+      ? route.query.cidade.join(",")
+      : "";
+    handlePets(estado, cidade);
   }, [route.query.estado, route.query.cidade]);
 
   return (

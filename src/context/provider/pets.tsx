@@ -46,7 +46,7 @@ function PetsProviders({ children }: IPropsChildren) {
   const [isLoading, setIsLoading] = useState(false);
   const [pet, setPet] = useState<IPropsPets>({} as IPropsPets);
 
-  async function handlePetsByCidadeAndEstado(estado: string, cidade: string) {
+  async function handlePetsByCidadeAndEstado(estado: any, cidade: any) {
     setIsLoading(true);
     await api
       .get(`/pets/${estado}/${cidade}`)

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import miniLogo from "../../../assets/mini-logo.png";
 
-import { ArrasteEsolte, FlechaParaEsquerda, Voltar } from "@/icons/icons";
+import { FlechaParaEsquerda, Voltar } from "@/icons/icons";
 import { useRouter } from "next/router";
 import RoutePrivate from "@/components/routePrivates";
 import { useAuthContext } from "@/context/hooks/useAuthProvider";
@@ -147,8 +147,6 @@ export default function CadastroPets() {
                 </label>
 
                 <div className="flex flex-col border border-gray-75 rounded-xl h-36 justify-center items-center">
-                  <ArrasteEsolte />
-
                   <h2 className="mt-4 text-lg font-medium text-gray-400">
                     Arraste e solte o arquivo
                   </h2>
