@@ -12,7 +12,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login, isLogin } = useAuthContext();
+  const { login, isLogin, isLoading } = useAuthContext();
 
   async function handleLogin() {
     await login(email, password);
@@ -21,6 +21,11 @@ export default function Login() {
   return (
     <RoutePrivate>
       <div className="flex justify-center w-screen h-screen bg-white overflow-x-hidden">
+        {isLoading && (
+          <div className="w-full h-full justify-center items-center absolute bg-red-200 opacity-75">
+            <div className="w-12 h-12 relative left-1/2 top-1/2 rounded-full animate-spin border-x-8 border-solid border-orange-400 border-t-transparent"></div>
+          </div>
+        )}
         <div className="flex w-1/2 h-full justify-center items-center">
           <div className="flex flex-col w-1/2 h-4/5 bg-red-500 p-11 rounded-3xl justify-between items-center">
             <div>

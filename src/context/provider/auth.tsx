@@ -23,6 +23,7 @@ interface AuthContextIProps {
   sairDaAplicacao(): Promise<void>;
   isLogin: boolean;
   token: string | undefined;
+  isLoading: boolean;
 }
 
 export const AuthContext = createContext<AuthContextIProps>(
@@ -32,9 +33,11 @@ export const AuthContext = createContext<AuthContextIProps>(
 export function AuthProvider({ children }: IPropsAuthProvider) {
   const [usuario, setUsuario] = useState<IPropsUsuario>({} as IPropsUsuario);
   const [isLogin, setIsLogin] = useState(false);
+  const [isLoading, setIsLoadin] = useState(false);
   const [token, setToken] = useState<string>();
 
   async function login(email: string, password: string) {
+    setIsLoadin(true);
     await api
       .post("/login", { email, password })
       .then((responde) => {
@@ -45,11 +48,16 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
           "user-find-a-friends",
           JSON.stringify(responde.data.user)
         );
+
+        setIsLoadin(false);
       })
       .catch((err) => {
         setIsLogin(true);
+        setIsLoadin(false);
       })
-      .finally(() => {});
+      .finally(() => {
+        setIsLoadin(false);
+      });
   }
 
   async function sairDaAplicacao() {
@@ -75,7 +83,7 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
 
   return (
     <AuthContext.Provider
-      value={{ login, usuario, sairDaAplicacao, isLogin, token }}
+      value={{ login, usuario, sairDaAplicacao, isLogin, token, isLoading }}
     >
       {children}
     </AuthContext.Provider>
