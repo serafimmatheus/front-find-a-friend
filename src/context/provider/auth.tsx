@@ -1,8 +1,6 @@
 import { api } from "@/data/api";
 import jwt from "jsonwebtoken";
-import { useRouter } from "next/router";
 import React, { createContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
 
 interface IPropsAuthProvider {
   children: React.ReactNode;
@@ -31,16 +29,10 @@ export const AuthContext = createContext<AuthContextIProps>(
   {} as AuthContextIProps
 );
 
-function AuthRouter() {
-  return useRouter();
-}
-
 export function AuthProvider({ children }: IPropsAuthProvider) {
   const [usuario, setUsuario] = useState<IPropsUsuario>({} as IPropsUsuario);
   const [isLogin, setIsLogin] = useState(false);
   const [token, setToken] = useState<string>();
-
-  const route = AuthRouter();
 
   async function login(email: string, password: string) {
     await api
@@ -53,8 +45,6 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
           "user-find-a-friends",
           JSON.stringify(responde.data.user)
         );
-
-        route.push("/cadastro/pet");
       })
       .catch((err) => {
         setIsLogin(true);
