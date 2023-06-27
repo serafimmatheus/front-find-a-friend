@@ -5,14 +5,14 @@ import { useState } from "react";
 import MyInput from "@/components/MyInput";
 import { useAuthContext } from "@/context/hooks/useAuthProvider";
 import RoutePrivate from "@/components/routePrivates";
-import { Spinner } from "@/components/spinner";
+import InvalidLogin from "@/components/invalidLogin";
 
 export default function Login() {
   const [modo, isModo] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login } = useAuthContext();
+  const { login, isLogin } = useAuthContext();
 
   async function handleLogin() {
     await login(email, password);
@@ -42,7 +42,10 @@ export default function Login() {
                     Boas-vindas!
                   </h2>
                 </div>
+
                 <div className="flex flex-col mt-16">
+                  {isLogin && <InvalidLogin />}
+
                   <MyInput
                     label="E-mail"
                     placeholder="Digite sua senha..."

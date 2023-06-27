@@ -6,63 +6,95 @@ import imagemDoGatinho from "../../../assets/gato.png";
 import celo from "../../../assets/celo.png";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { usePets } from "@/context/hooks/usePetsProvider";
 import SkeletonPets from "@/components/skeletonPets";
+import { api } from "@/data/api";
+import { GetServerSidePropsContext } from "next";
 
-interface IPropsPetsArray {}
+interface IPropsOrganizacao {
+  cep: string;
+  cidade: string;
+  email: string;
+  endereco: string;
+  estado: string;
+  nome: string;
+  organizacao: string;
+  whatsapp: string;
+}
 
-export default function Amigos() {
+interface IPropsPets {
+  id: string;
+  ambiente: string;
+  gatoOuCachorro: string;
+  idade: string;
+  nivelEnergia: string;
+  nivelIndependencia: string;
+  nome: string;
+  porte: string;
+  sobre: string;
+  petId: IPropsOrganizacao;
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  // Faça a chamada para a API
+  const { cidade, estado } = context.query;
+
+  let data: IPropsPets[] = [];
+  await api.get(`/pets/${estado}/${cidade}`).then((response) => {
+    data = data.concat(response.data);
+  });
+
+  // Retorne os dados como propriedades da página
+  return {
+    props: {
+      data,
+      cidade,
+      estado,
+    },
+  };
+}
+
+export default function Amigos({
+  data,
+  estado,
+  cidade,
+}: {
+  data: IPropsPets[];
+  estado: string;
+  cidade: string;
+}) {
   const route = useRouter();
-
-  const [estado, setEstado] = useState<string>("");
-  const [cidade, setCidade] = useState<string>("");
 
   const [estadoSeach, setEstadoSearch] = useState("");
   const [cidadeSeach, setCidadeSearch] = useState("");
-
-  const { handlePetsByCidadeAndEstado, pets, isLoading } = usePets();
 
   function irParaDetalhesDoPet(id: string) {
     route.push(`/amigos/detalhes/${id}`);
   }
 
-  function searchPagePets2() {
-    route.push(`/amigos/${estado}/${cidade}`);
-  }
-
   async function handlePetsPage(estado: string, cidade: string) {
-    // await handlePetsByCidadeAndEstado(estado, cidade);
     route.push(`/amigos/${estado}/${cidade}`);
   }
 
-  async function handlePets(estado: string, cidade: string) {
-    await handlePetsByCidadeAndEstado(estado, cidade);
-  }
-
-  useEffect(() => {
-    const estado = Array.isArray(route.query.estado)
-      ? route.query.estado.join(",")
-      : "";
-    const cidade = Array.isArray(route.query.cidade)
-      ? route.query.cidade.join(",")
-      : "";
-    handlePets(estado, cidade);
-  }, [route.query.estado, route.query.cidade]);
+  useEffect(() => {}, [data, estado, cidade]);
 
   return (
     <div className="bg-white w-screen lg:h-screen overflow-hidden">
       <div className="flex w-full h-full">
         <div className="filtros w-1/3 h-full bg-red-500">
           <div className="bg-red-600 py-16 flex flex-col px-12">
-            <div className="w-[45px] h-[46px]">
+            <div
+              className="w-[45px] h-[46px] cursor-pointer"
+              onClick={() => route.push("/")}
+            >
               <Image src={miniLogo} alt="mini logo" />
             </div>
 
             <div className="flex mt-10">
               <select
                 className="w-[72px] h-[72px] px-2 bg-red-500 border outline-none text-white border-white rounded-[20px] my-4 sm:mr-2"
-                defaultValue={route.query.estado}
+                defaultValue={estado}
                 onChange={(e) => setEstadoSearch(e.target.value)}
+                value={estadoSeach}
               >
                 <option value="AC">AC</option>
                 <option value="AL">AL</option>
@@ -96,9 +128,10 @@ export default function Amigos() {
               <input
                 className="w-[280px] h-[72px] outline-none placeholder:text-gray-100 px-4 bg-red-500 flex flex-col justify-center items-center text-white rounded-[20px] my-4 sm:mr-4"
                 type="text"
-                defaultValue={route.query.cidade}
+                defaultValue={cidade}
                 onChange={(e) => setCidadeSearch(e.target.value)}
                 placeholder="Digite sua cidade"
+                value={cidadeSeach}
               />
 
               <button
@@ -163,7 +196,7 @@ export default function Amigos() {
         <div className="navigation w-2/3 h-full pr-10 pl-5 bg-gray-100">
           <div className="flex justify-between items-center pt-40">
             <h1 className="font-nunito text-xl font-normal text-gray-400">
-              Encontre <b>{pets.length}</b> amigos na sua cidade
+              Encontre <b>{data.length}</b> amigos na sua cidade
             </h1>
 
             <select className="h-[60px] bg-red-200 rounded-2xl px-4 optional:text-gray-400 optional:text-base optional:font-nunito optional:font-normal outline-none">
@@ -174,16 +207,14 @@ export default function Amigos() {
           </div>
 
           <div className="flex flex-wrap justify-start gap-5 overflow-auto w-full h-2/3 mt-10 pb-10 pl-2">
-            {isLoading ? (
-              <SkeletonPets />
-            ) : pets.length === 0 ? (
+            {data?.length === 0 ? (
               <div className="flex w-full border border-dashed animate-pulse justify-center items-center">
                 <p className="text-2xl text-gray-400 font-nunito font-semibold">
                   Não encontramos nenhum pet para na sua região
                 </p>
               </div>
             ) : (
-              pets.map((elem) => {
+              data.map((elem) => {
                 return (
                   <div
                     key={elem.id}

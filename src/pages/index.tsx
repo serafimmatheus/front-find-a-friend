@@ -23,8 +23,26 @@ export default function Home() {
   return (
     <main className="bg-red-500 w-screen lg:h-screen">
       <div className="container flex flex-col w-full max-w-7xl my-0 mx-auto px-4">
-        <div className="w-[215px] h-[56px] pt-10 sm:pt-24">
-          <Image src={logo} alt="Logo" />
+        <div className="flex pt-10 sm:pt-24 justify-between items-center w-full">
+          <div className=" w-[215px] h-[56px]  ">
+            <Image src={logo} alt="Logo" />
+          </div>
+
+          <div className="flex gap-4">
+            <button
+              className="border border-white px-10 py-1 text-white rounded-2xl hover:bg-red-600"
+              onClick={() => route.push("/login")}
+            >
+              Logar
+            </button>
+
+            <button
+              className="border border-white px-10 py-1 text-white rounded-2xl hover:bg-red-600"
+              onClick={() => route.push("/login")}
+            >
+              cadastrar
+            </button>
+          </div>
         </div>
 
         <div className="w-full pt-32 sm:flex items-end justify-center">

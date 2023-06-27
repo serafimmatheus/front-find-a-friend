@@ -23,18 +23,22 @@ interface AuthContextIProps {
   login(email: string, password: string): Promise<void>;
   usuario: any;
   sairDaAplicacao(): Promise<void>;
+  isLogin: boolean;
 }
 
 export const AuthContext = createContext<AuthContextIProps>(
   {} as AuthContextIProps
 );
 
+function AuthRouter() {
+  return useRouter();
+}
+
 export function AuthProvider({ children }: IPropsAuthProvider) {
   const [usuario, setUsuario] = useState<IPropsUsuario>({} as IPropsUsuario);
-  const [carregando, setCarregando] = useState(true);
-  const [islogado, setIsLogado] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
-  const route = useRouter();
+  const route = AuthRouter();
 
   async function login(email: string, password: string) {
     await api
@@ -50,7 +54,9 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
 
         route.push("/cadastro/pet");
       })
-      .catch((err) => {})
+      .catch((err) => {
+        setIsLogin(true);
+      })
       .finally(() => {});
   }
 
@@ -76,7 +82,7 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
   }, [usuario]);
 
   return (
-    <AuthContext.Provider value={{ login, usuario, sairDaAplicacao }}>
+    <AuthContext.Provider value={{ login, usuario, sairDaAplicacao, isLogin }}>
       {children}
     </AuthContext.Provider>
   );

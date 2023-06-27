@@ -1,45 +1,61 @@
 import Image from "next/image";
 import miniLogo from "../../../assets/mini-logo.png";
 import fotoPrincipal from "../../../assets/Foto.png";
-import {
-  Atencao,
-  EspacoAmplo,
-  FlechaParaEsquerda,
-  Phone,
-  Raio,
-} from "@/icons/icons";
+import { EspacoAmplo, FlechaParaEsquerda, Phone, Raio } from "@/icons/icons";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { usePets } from "@/context/hooks/usePetsProvider";
 import { api } from "@/data/api";
+import { GetServerSidePropsContext } from "next";
 
-interface IPropsIDPet {
-  id: string;
+interface IPropsOrganizacao {
+  cep: string;
+  cidade: string;
+  email: string;
+  endereco: string;
+  estado: string;
+  nome: string;
+  organizacao: string;
+  whatsapp: string;
 }
 
-export default function DetailsPet() {
+interface IPropsPets {
+  id: string;
+  ambiente: string;
+  gatoOuCachorro: string;
+  idade: string;
+  nivelEnergia: string;
+  nivelIndependencia: string;
+  nome: string;
+  porte: string;
+  sobre: string;
+  petId: IPropsOrganizacao;
+}
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  // Faça a chamada para a API
+  const { id } = context.query;
+
+  let pet: IPropsPets | null = null;
+  await api.get(`/pets/${id}`).then((response) => {
+    pet = response.data;
+  });
+
+  // Retorne os dados como propriedades da página
+  return {
+    props: {
+      pet,
+    },
+  };
+}
+
+export default function DetailsPet({ pet }: { pet: IPropsPets }) {
   const route = useRouter();
   const [lista, setLista] = useState([0, 1, 2, 3, 4, 5]);
-
-  const { handlePetById, pet } = usePets();
 
   function backPage() {
     route.back();
   }
 
-  function alterarAsImagens(num: number) {
-    const novaLista = lista.forEach((elem) => (elem == num ? "sim" : "nao"));
-    console.log(novaLista);
-  }
-
-  async function handlePetPage(id: string) {
-    await handlePetById(id);
-  }
-
-  useEffect(() => {
-    const id = route.query.id?.toString() ?? "";
-    handlePetPage(id);
-  }, [route.query.id]);
+  useEffect(() => {}, [pet]);
 
   return (
     <div className="flex w-screen h-screen">
@@ -81,7 +97,6 @@ export default function DetailsPet() {
                     className="flex p-2 justify-center items-center mt-10"
                   >
                     <Image
-                      onClick={() => alterarAsImagens(elem)}
                       className={`w-20 h-20 object-cover border-[3px] border-gray-400 rounded-md`}
                       src={fotoPrincipal}
                       alt="mini imagens do seu futuro pet"
