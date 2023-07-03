@@ -79,7 +79,7 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
         })
         .catch((err) => console.error(err));
     }
-  }, [usuario]);
+  }, []);
 
   return (
     <AuthContext.Provider
