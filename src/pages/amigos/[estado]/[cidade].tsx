@@ -86,7 +86,7 @@ export default function Amigos({
               className="w-[45px] h-[46px] cursor-pointer"
               onClick={() => route.push("/")}
             >
-              <Image src={miniLogo} alt="mini logos" />
+              <Image src={miniLogo} alt="mini logo" />
             </div>
 
             <div className="flex mt-10">
