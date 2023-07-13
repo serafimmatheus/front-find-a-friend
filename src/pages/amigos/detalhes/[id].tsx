@@ -1,7 +1,12 @@
 import Image from "next/image";
 import miniLogo from "../../../assets/mini-logo.png";
-import fotoPrincipal from "../../../assets/Foto.png";
-import { EspacoAmplo, FlechaParaEsquerda, Phone, Raio } from "@/icons/icons";
+import {
+  Atencao,
+  EspacoAmplo,
+  FlechaParaEsquerda,
+  Phone,
+  Raio,
+} from "@/icons/icons";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { api } from "@/data/api";
@@ -20,6 +25,9 @@ interface IPropsOrganizacao {
 
 interface IPropsPets {
   id: string;
+  coverImage: string;
+  imagesUrl: string[];
+  requisitosDoacao: string[];
   ambiente: string;
   gatoOuCachorro: string;
   idade: string;
@@ -38,8 +46,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   await api.get(`/pets/${id}`).then((response) => {
     pet = response.data;
   });
-
-  // Retorne os dados como propriedades da página
   return {
     props: {
       pet,
@@ -49,13 +55,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function DetailsPet({ pet }: { pet: IPropsPets }) {
   const route = useRouter();
-  const [lista, setLista] = useState([0, 1, 2, 3, 4, 5]);
+
+  const [numero, setNumero] = useState(0);
 
   function backPage() {
     route.back();
   }
 
-  useEffect(() => {}, [pet]);
+  // useEffect(() => {}, [pet]);
 
   return (
     <div className="flex w-screen h-screen">
@@ -81,25 +88,28 @@ export default function DetailsPet({ pet }: { pet: IPropsPets }) {
           </div>
 
           <div className="flex flex-col w-1/2 bg-white rounded-3xl ">
-            <div className="w-full">
+            <div className="relative w-full h-[400px] ">
               <Image
-                className="w-full object-cover"
-                src={fotoPrincipal}
+                className="object-cover object-top rounded-3xl"
+                src={pet.imagesUrl[numero]}
                 alt="Imagem do seu futuro pet"
+                fill
               />
             </div>
 
-            <div className="flex justify-center items-center">
-              {lista.map((elem) => {
+            <div className="flex justify-center items-center gap-4">
+              {pet?.imagesUrl?.map((elem, index) => {
                 return (
                   <div
                     key={elem}
-                    className="flex p-2 justify-center items-center mt-10"
+                    className="relative  flex p-2 justify-center w-20 h-20 items-center mt-10"
+                    onClick={() => setNumero(index)}
                   >
                     <Image
-                      className={`w-20 h-20 object-cover border-[3px] border-gray-400 rounded-md`}
-                      src={fotoPrincipal}
+                      className={`object-cover border-[3px] border-gray-400 rounded-md`}
+                      src={elem}
                       alt="mini imagens do seu futuro pet"
+                      fill
                     />
                   </div>
                 );
@@ -153,6 +163,12 @@ export default function DetailsPet({ pet }: { pet: IPropsPets }) {
               </div>
             </div>
 
+            <div className="flex justify-between px-20 mt-10">
+              <div className="relative w-full h-[291px]">
+                <Image src="/Mapa.png" fill alt="localizacao" />
+              </div>
+            </div>
+
             <div className="w-full my-10 px-20">
               <div className="w-full h-[2px] min-h-[2px] bg-gray-75"></div>
             </div>
@@ -194,35 +210,19 @@ export default function DetailsPet({ pet }: { pet: IPropsPets }) {
               <h2 className="font-nunito text-gray-400 font-bold text-3xl">
                 Requisitos para adoção
               </h2>
-              {/* <div className="mt-14 flex flex-col">
-                <div className="flex items-center gap-5 px-14 py-4 mb-4 border border-red-500 rounded-xl">
-                  <Atencao />
-                  <p className="font-nunito text-red-500 font-semibold text-lg">
-                    Local grande para o animal correr e brincar.
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-5 px-14 py-4 mb-4 border border-red-500 rounded-xl">
-                  <Atencao />
-                  <p className="font-nunito text-red-500 font-semibold text-lg">
-                    Proibido apartamento.
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-5 px-14 py-4 mb-4 border border-red-500 rounded-xl">
-                  <Atencao />
-                  <p className="font-nunito text-red-500 font-semibold text-lg">
-                    Ambiente frio, pois possui muito pelo.
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-5 px-14 py-4 mb-4 border border-red-500 rounded-xl">
-                  <Atencao />
-                  <p className="font-nunito text-red-500 font-semibold text-lg">
-                    Cão com intolerância a lactose.
-                  </p>
-                </div>
-              </div> */}
+              <div className="mt-14 flex flex-col">
+                {pet.requisitosDoacao.map((requisito) => (
+                  <div
+                    key={pet.id}
+                    className="flex items-center gap-5 px-14 py-4 mb-4 border border-red-500 rounded-xl"
+                  >
+                    <Atencao />
+                    <p className="font-nunito text-red-500 font-semibold text-lg">
+                      {requisito}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="flex px-20 mt-20 mb-20">

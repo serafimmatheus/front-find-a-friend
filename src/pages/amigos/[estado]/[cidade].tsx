@@ -6,7 +6,6 @@ import imagemDoGatinho from "../../../assets/gato.png";
 import celo from "../../../assets/celo.png";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import SkeletonPets from "@/components/skeletonPets";
 import { api } from "@/data/api";
 import { GetServerSidePropsContext } from "next";
 
@@ -23,6 +22,7 @@ interface IPropsOrganizacao {
 
 interface IPropsPets {
   id: string;
+  coverImage: string;
   ambiente: string;
   gatoOuCachorro: string;
   idade: string;
@@ -221,16 +221,11 @@ export default function Amigos({
                     className="w-[280px] h-72 bg-white relative rounded-3xl cursor-pointer text-gray-400 hover:text-white hover:bg-gray-400"
                     onClick={() => irParaDetalhesDoPet(elem.id)}
                   >
-                    <div className="p-[2px] w-full relative">
+                    <div className="p-[2px] w-full h-[210px] relative">
                       <Image
-                        className="rounded-3xl "
-                        src={
-                          elem.gatoOuCachorro === "gato"
-                            ? imagemDoGatinho
-                            : imagemDoDoguinho
-                        }
-                        width={1000}
-                        height={100}
+                        className="rounded-3xl object-cover"
+                        src={elem.coverImage}
+                        fill
                         alt="imagens dos pets"
                       />
                     </div>

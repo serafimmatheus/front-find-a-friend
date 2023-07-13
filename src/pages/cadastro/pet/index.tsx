@@ -1,17 +1,25 @@
 import Image from "next/image";
 import miniLogo from "../../../assets/mini-logo.png";
 
-import { FlechaParaEsquerda, Voltar } from "@/icons/icons";
+import { FlechaParaEsquerda, Lixo, Voltar } from "@/icons/icons";
 import { useRouter } from "next/router";
 import RoutePrivate from "@/components/routePrivates";
 import { useAuthContext } from "@/context/hooks/useAuthProvider";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { api } from "@/data/api";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function CadastroPets() {
   const route = useRouter();
 
   const [nome, setNome] = useState("");
+  const [coverImage, setCoverImage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [imagesUrl, setImagesUrl] = useState<string[]>([]);
+  const [requisito, setRequisito] = useState("");
+  const [requisitos, setRequisitos] = useState<string[]>([]);
   const [sobre, setSobre] = useState("");
   const [idade, setIdade] = useState("");
   const [porte, setPorte] = useState("");
@@ -26,9 +34,38 @@ export default function CadastroPets() {
     route.push("/");
   }
 
+  function handleImages() {
+    setImagesUrl([...imagesUrl, imageUrl]);
+  }
+
+  function handleRequisitos() {
+    setRequisitos([...requisitos, requisito]);
+  }
+
+  function excluirRequisitoDaLista(index: any) {
+    const newList = [...requisitos];
+    newList.splice(index, 1);
+    setRequisitos(newList);
+  }
+
+  function excluirImagemDaLista(index: any) {
+    const newList = [...imagesUrl];
+    newList.splice(index, 1);
+    setImagesUrl(newList);
+  }
+
+  function toastComponent(text: string) {
+    const notify = () => toast(text);
+
+    return notify;
+  }
+
   async function handleSubmitForm() {
     const data = {
       nome,
+      coverImage,
+      imagesUrl,
+      requisitosDoacao: requisitos,
       sobre,
       idade,
       porte,
@@ -48,6 +85,7 @@ export default function CadastroPets() {
         },
       })
       .then((_) => {
+        toastComponent(`${nome} foi adicionado com sucesso!`);
         route.push("/");
       })
       .catch((_) => {
@@ -106,6 +144,103 @@ export default function CadastroPets() {
 
               <div className="mt-8 mb-14">
                 <div className="h-[1px] w-full bg-gray-75"></div>
+              </div>
+
+              <div className="flex flex-col mb-8">
+                <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                  Foto de capa
+                </label>
+
+                <input
+                  className="border border-gray-75 rounded-xl h-16 px-5 placeholder:text-gray-200"
+                  type="text"
+                  placeholder="Insira uma URL .png | .jpg | .jpeg"
+                  onChange={(e) => setCoverImage(e.target.value)}
+                />
+              </div>
+
+              <div className="flex flex-col mb-8">
+                <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                  Fotos
+                </label>
+
+                <div className="flex justify-between items-center gap-5">
+                  <input
+                    className="border border-gray-75 rounded-xl h-16 px-5 placeholder:text-gray-200 flex-1"
+                    type="text"
+                    placeholder="Insira uma URL .png | .jpg | .jpeg"
+                    onChange={(e) => setImageUrl(e.target.value)}
+                  />
+
+                  <button
+                    className="border border-green-400 h-16 rounded-xl px-5 bg-green-400 text-white hover:bg-white hover:text-gray-400 hover:transition-colors"
+                    onClick={() => handleImages()}
+                  >
+                    Adicionar
+                  </button>
+                </div>
+
+                <ul className="mt-8 flex flex-wrap w-full gap-3 justify-center">
+                  {imagesUrl.map((image, index) => (
+                    <li
+                      className="h-[60px] w-[60px] relative bg-red-500 flex items-center rounded-xl text-gray-50"
+                      key={index}
+                    >
+                      <div className="relative h-full w-full">
+                        <Image src={image} fill alt={image} />
+                      </div>
+
+                      <button
+                        className="absolute right-5"
+                        onClick={() => excluirImagemDaLista(index)}
+                      >
+                        <Lixo />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex flex-col mb-8">
+                <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                  Requisitos para a doação
+                </label>
+
+                <div className="flex justify-between items-center gap-5">
+                  <input
+                    className="border border-gray-75 rounded-xl h-16 px-5 placeholder:text-gray-200 flex-1"
+                    type="text"
+                    placeholder="Insira o requisito"
+                    onChange={(e) => setRequisito(e.target.value)}
+                  />
+
+                  <button
+                    className="border border-green-400 h-16 rounded-xl px-5 bg-green-400 text-white hover:bg-white hover:text-gray-400 hover:transition-colors"
+                    onClick={() => handleRequisitos()}
+                  >
+                    Adicionar
+                  </button>
+                </div>
+
+                <ul className="mt-8 flex flex-wrap w-full gap-3 justify-center">
+                  {requisitos.map((requisito, index) => (
+                    <li
+                      className="w-full px-5 h-14 relative border border-red-500 flex items-center rounded-xl text-gray-400 hover:bg-red-500 hover:text-white cursor-pointer"
+                      key={`${index}-requisitos`}
+                    >
+                      <p>{requisito}</p>
+
+                      <button
+                        className="absolute right-5"
+                        onClick={() =>
+                          excluirRequisitoDaLista(`${index}-requisitos`)
+                        }
+                      >
+                        <Lixo />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               <div className="flex flex-col mb-8">
@@ -231,41 +366,6 @@ export default function CadastroPets() {
                   <option value="cachorro">Cachorro</option>
                 </select>
               </div>
-
-              {/* <div className="flex flex-col w-full font-nunito mb-8">
-                <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
-                  Fotos
-                </label>
-
-                <div className="flex flex-col border border-gray-75 rounded-xl h-36 justify-center items-center">
-                  <h2 className="mt-4 text-lg font-medium text-gray-400">
-                    Arraste e solte o arquivo
-                  </h2>
-                  <input type="file" className="hidden" multiple />
-                </div>
-              </div> */}
-
-              {/* <div className="flex flex-col mt-8">
-                <h2 className="flex font-nunito text-gray-400 font-bold text-3xl">
-                  Requisitos para adoção
-                </h2>
-
-                <div className="mt-8 mb-14">
-                  <div className="h-[1px] w-full bg-gray-75"></div>
-                </div>
-
-                <div className="flex flex-col mb-8">
-                  <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
-                    Reqisito
-                  </label>
-
-                  <input
-                    className="border border-gray-75 rounded-xl h-16 px-5"
-                    type="text"
-                    placeholder="Defina um requisito..."
-                  />
-                </div>
-              </div> */}
 
               <div className="flex flex-col w-full mt-8 mb-8">
                 <button
