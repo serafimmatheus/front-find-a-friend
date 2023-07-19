@@ -11,14 +11,20 @@ function RoutePrivate({ children }: IProps) {
   const router = useRouter();
 
   useEffect(() => {
-    if (usuario?.id) {
-      router.push("/cadastro/pet");
-    } else {
-      router.push("/login");
-    }
+    // if (usuario?.id) {
+    //   router.push("/cadastro/pet");
+    // } else {
+    //   router.push("/login");
+    // }
   }, [router, usuario?.id]);
 
-  return <>{children}</>;
+  if (!usuario.id) {
+    return typeof window !== "undefined" && router.push("/login");
+  }
+
+  if (usuario.id) {
+    return { children };
+  }
 }
 
 export default RoutePrivate;
