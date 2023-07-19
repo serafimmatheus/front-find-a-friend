@@ -94,154 +94,154 @@ export default function CadastroPets() {
   }
 
   return (
-    <RoutePrivate>
-      <div className="flex w-screen h-screen">
-        <div className="flex flex-col w-36 h-full bg-red-500 items-center justify-between">
-          <div className="flex my-10">
-            <Image src={miniLogo} alt="Mini logo da aplicação" />
-          </div>
-
-          <button
-            onClick={backPage}
-            className="w-12 h-12 bg-yellow flex flex-col justify-center items-center text-white my-5 rounded-[20px]"
-          >
-            <FlechaParaEsquerda />
-          </button>
+    <div className="flex w-screen h-screen">
+      <div className="flex flex-col w-36 h-full bg-red-500 items-center justify-between">
+        <div className="flex my-10">
+          <Image src={miniLogo} alt="Mini logo da aplicação" />
         </div>
 
-        <div className="flex w-full h-full bg-red-150 overflow-hidden pb-20">
-          <div className="flex flex-col w-full h-full items-center overflow-auto">
-            <div className="flex gap-8 h-[120px] bg-gray-400 w-1/2 items-center justify-between px-20 rounded-3xl mt-24">
-              <div className="flex items-center py-20 gap-6">
-                <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-orange-400">
-                  <Image src={miniLogo} alt="loguinho" />
-                </div>
+        <button
+          onClick={backPage}
+          className="w-12 h-12 bg-yellow flex flex-col justify-center items-center text-white my-5 rounded-[20px]"
+        >
+          <FlechaParaEsquerda />
+        </button>
+      </div>
 
-                <div className="flex flex-col">
-                  <h2 className="font-nunito font-bold text-white text-3xl">
-                    {usuario.organizacao}
-                  </h2>
-                  <p className="font-nunito font-normal text-white text-base">
-                    {usuario.endereco}, {usuario.cidade}, {usuario.estado}
-                  </p>
-                </div>
+      <div className="flex w-full h-full bg-red-150 overflow-hidden pb-20">
+        <div className="flex flex-col w-full h-full items-center overflow-auto">
+          <div className="flex gap-8 h-[120px] bg-gray-400 w-1/2 items-center justify-between px-20 rounded-3xl mt-24">
+            <div className="flex items-center py-20 gap-6">
+              <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-orange-400">
+                <Image src={miniLogo} alt="loguinho" />
               </div>
 
-              <div
-                className="h-16 w-16 bg-gray-300 flex items-center justify-center rounded-2xl cursor-pointer"
-                onClick={sairDaAplicacao}
-              >
-                <Voltar />
+              <div className="flex flex-col">
+                <h2 className="font-nunito font-bold text-white text-3xl">
+                  {usuario.organizacao}
+                </h2>
+                <p className="font-nunito font-normal text-white text-base">
+                  {usuario.endereco}, {usuario.cidade}, {usuario.estado}
+                </p>
               </div>
             </div>
 
-            <div className="flex flex-col bg-white w-1/2 px-20 rounded-3xl mt-10">
-              <div className="mt-14">
-                <h2 className="font-nunito font-extrabold text-gray-400 text-4xl">
-                  Adicione um pet
-                </h2>
-              </div>
+            <div
+              className="h-16 w-16 bg-gray-300 flex items-center justify-center rounded-2xl cursor-pointer"
+              onClick={sairDaAplicacao}
+            >
+              <Voltar />
+            </div>
+          </div>
 
-              <div className="mt-8 mb-14">
-                <div className="h-[1px] w-full bg-gray-75"></div>
-              </div>
+          <div className="flex flex-col bg-white w-1/2 px-20 rounded-3xl mt-10">
+            <div className="mt-14">
+              <h2 className="font-nunito font-extrabold text-gray-400 text-4xl">
+                Adicione um pet
+              </h2>
+            </div>
 
-              <div className="flex flex-col mb-8">
-                <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
-                  Foto de capa
-                </label>
+            <div className="flex flex-col mb-8">
+              <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                Foto de capa
+              </label>
 
+              <input
+                className="border border-gray-75 rounded-xl h-16 px-5 placeholder:text-gray-200"
+                type="text"
+                placeholder="Insira uma URL .png | .jpg | .jpeg"
+                onChange={(e) => setCoverImage(e.target.value)}
+              />
+            </div>
+
+            <div className="flex flex-col mb-8">
+              <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                Fotos
+              </label>
+
+              <div className="flex justify-between items-center gap-5">
                 <input
-                  className="border border-gray-75 rounded-xl h-16 px-5 placeholder:text-gray-200"
+                  className="border border-gray-75 rounded-xl h-16 px-5 placeholder:text-gray-200 flex-1"
                   type="text"
                   placeholder="Insira uma URL .png | .jpg | .jpeg"
-                  onChange={(e) => setCoverImage(e.target.value)}
+                  onChange={(e) => setImageUrl(e.target.value)}
                 />
+
+                <button
+                  className="border border-green-400 h-16 rounded-xl px-5 bg-green-400 text-white hover:bg-white hover:text-gray-400 hover:transition-colors"
+                  onClick={() => handleImages()}
+                >
+                  Adicionar
+                </button>
               </div>
 
-              <div className="flex flex-col mb-8">
-                <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
-                  Fotos
-                </label>
-
-                <div className="flex justify-between items-center gap-5">
-                  <input
-                    className="border border-gray-75 rounded-xl h-16 px-5 placeholder:text-gray-200 flex-1"
-                    type="text"
-                    placeholder="Insira uma URL .png | .jpg | .jpeg"
-                    onChange={(e) => setImageUrl(e.target.value)}
-                  />
-
-                  <button
-                    className="border border-green-400 h-16 rounded-xl px-5 bg-green-400 text-white hover:bg-white hover:text-gray-400 hover:transition-colors"
-                    onClick={() => handleImages()}
+              <ul className="mt-8 flex flex-wrap w-full gap-3 justify-center">
+                {imagesUrl.map((image, index) => (
+                  <li
+                    className="h-[60px] w-[60px] relative bg-red-500 flex items-center rounded-xl text-gray-50"
+                    key={index}
                   >
-                    Adicionar
-                  </button>
-                </div>
+                    <div className="relative h-full w-full">
+                      <Image src={image} fill alt={image} />
+                    </div>
 
-                <ul className="mt-8 flex flex-wrap w-full gap-3 justify-center">
-                  {imagesUrl.map((image, index) => (
-                    <li
-                      className="h-[60px] w-[60px] relative bg-red-500 flex items-center rounded-xl text-gray-50"
-                      key={index}
+                    <button
+                      className="absolute right-5"
+                      onClick={() => excluirImagemDaLista(index)}
                     >
-                      <div className="relative h-full w-full">
-                        <Image src={image} fill alt={image} />
-                      </div>
+                      <Lixo />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-                      <button
-                        className="absolute right-5"
-                        onClick={() => excluirImagemDaLista(index)}
-                      >
-                        <Lixo />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+            <div className="flex flex-col mb-8">
+              <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                Requisitos para a doação
+              </label>
+
+              <div className="flex justify-between items-center gap-5">
+                <input
+                  className="border border-gray-75 rounded-xl h-16 px-5 placeholder:text-gray-200 flex-1"
+                  type="text"
+                  placeholder="Insira o requisito"
+                  onChange={(e) => setRequisito(e.target.value)}
+                />
+
+                <button
+                  className="border border-green-400 h-16 rounded-xl px-5 bg-green-400 text-white hover:bg-white hover:text-gray-400 hover:transition-colors"
+                  onClick={() => handleRequisitos()}
+                >
+                  Adicionar
+                </button>
               </div>
 
-              <div className="flex flex-col mb-8">
-                <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
-                  Requisitos para a doação
-                </label>
-
-                <div className="flex justify-between items-center gap-5">
-                  <input
-                    className="border border-gray-75 rounded-xl h-16 px-5 placeholder:text-gray-200 flex-1"
-                    type="text"
-                    placeholder="Insira o requisito"
-                    onChange={(e) => setRequisito(e.target.value)}
-                  />
-
-                  <button
-                    className="border border-green-400 h-16 rounded-xl px-5 bg-green-400 text-white hover:bg-white hover:text-gray-400 hover:transition-colors"
-                    onClick={() => handleRequisitos()}
+              <ul className="mt-8 flex flex-wrap w-full gap-3 justify-center">
+                {requisitos.map((requisito, index) => (
+                  <li
+                    className="w-full px-5 h-14 relative border border-red-500 flex items-center rounded-xl text-gray-400 hover:bg-red-500 hover:text-white cursor-pointer"
+                    key={`${index}-requisitos`}
                   >
-                    Adicionar
-                  </button>
-                </div>
+                    <p>{requisito}</p>
 
-                <ul className="mt-8 flex flex-wrap w-full gap-3 justify-center">
-                  {requisitos.map((requisito, index) => (
-                    <li
-                      className="w-full px-5 h-14 relative border border-red-500 flex items-center rounded-xl text-gray-400 hover:bg-red-500 hover:text-white cursor-pointer"
-                      key={`${index}-requisitos`}
+                    <button
+                      className="absolute right-5"
+                      onClick={() =>
+                        excluirRequisitoDaLista(`${index}-requisitos`)
+                      }
                     >
-                      <p>{requisito}</p>
+                      <Lixo />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-                      <button
-                        className="absolute right-5"
-                        onClick={() =>
-                          excluirRequisitoDaLista(`${index}-requisitos`)
-                        }
-                      >
-                        <Lixo />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="flex flex-col mb-8">
+              <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                Nome
+              </label>
 
               <div className="flex flex-col mb-8">
                 <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
@@ -379,6 +379,6 @@ export default function CadastroPets() {
           </div>
         </div>
       </div>
-    </RoutePrivate>
+    </div>
   );
 }
