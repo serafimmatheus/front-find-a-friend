@@ -1,5 +1,6 @@
 import { api } from "@/data/api";
 import jwt from "jsonwebtoken";
+import { useRouter } from "next/router";
 import React, { createContext, useEffect, useState } from "react";
 
 interface IPropsAuthProvider {
@@ -36,6 +37,8 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
   const [isLoading, setIsLoadin] = useState(false);
   const [token, setToken] = useState<string>();
 
+  const router = useRouter();
+
   async function login(email: string, password: string) {
     setIsLoadin(true);
     await api
@@ -50,6 +53,8 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
         );
 
         setIsLoadin(false);
+
+        router.push("/cadastro/pet");
       })
       .catch((err) => {
         setIsLogin(true);
@@ -64,6 +69,8 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
     setUsuario({} as any);
     localStorage.removeItem("token-find-a-friends");
     localStorage.removeItem("user-find-a-friends");
+
+    router.push("/");
   }
 
   useEffect(() => {
