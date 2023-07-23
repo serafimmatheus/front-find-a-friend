@@ -1,5 +1,6 @@
 import { useAuthContext } from "@/context/hooks/useAuthProvider";
 import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 interface IProps {
@@ -7,24 +8,32 @@ interface IProps {
 }
 
 function RoutePrivate({ children }: IProps) {
-  const { usuario } = useAuthContext();
+  const { usuario, token } = useAuthContext();
   const router = useRouter();
+  const pathName = usePathname();
+
+  const routesPrivates = ["/cadastro/pet", "/profile", "/profile/pets"];
 
   useEffect(() => {
-    // if (usuario?.id) {
-    //   router.push("/cadastro/pet");
-    // } else {
-    //   router.push("/login");
-    // }
-  }, [router, usuario?.id]);
+    async function checkUser() {
+      if (!usuario.id) {
+        return await router.push("/login");
+      } else if (usuario.id) {
+        return;
+      } else if (usuario.id && token && pathName === "/login") {
+        return await router.push("/profile");
+      }
+    }
 
-  if (!usuario.id) {
-    return typeof window !== "undefined" && router.push("/login");
-  }
+    checkUser();
+  }, [usuario, token, router, pathName]);
 
-  if (usuario.id) {
-    return { children };
-  }
+  return (
+    <>
+      {!usuario.id && null}
+      {usuario.id && children}
+    </>
+  );
 }
 
 export default RoutePrivate;
