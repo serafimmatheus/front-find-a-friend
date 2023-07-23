@@ -1,7 +1,7 @@
 import Image from "next/image";
 import logo from "../../assets/logo.png";
 import logoPets from "../../assets/dogs.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyInput from "@/components/MyInput";
 import { useAuthContext } from "@/context/hooks/useAuthProvider";
 import RoutePrivate from "@/components/routePrivates";
@@ -64,6 +64,17 @@ export default function Login() {
   async function handleLogin() {
     await login(email, password);
   }
+
+  useEffect(() => {
+    function checkRouterPage() {
+      const tokenApp = localStorage.getItem("token-find-a-friends");
+      if (tokenApp) {
+        return route.push("/cadastro/pet");
+      }
+    }
+
+    checkRouterPage();
+  }, [route]);
 
   return (
     <div className="flex justify-center w-screen h-screen bg-white overflow-x-hidden">
