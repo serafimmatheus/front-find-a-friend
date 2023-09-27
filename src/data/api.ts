@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "http://localhost:5555/api/v1/",
+  baseURL: "https://api-find-a-friends.vercel.app/api/v1/",
 });
