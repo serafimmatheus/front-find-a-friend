@@ -10,6 +10,7 @@ import InvalidLogin from "@/components/invalidLogin";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { api } from "@/data/api";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 interface IPropsHookForm {
   nome: string;
@@ -77,148 +78,154 @@ export default function Login() {
   }, [route]);
 
   return (
-    <div className="flex justify-center w-screen h-screen bg-white overflow-x-hidden">
-      {isLoading && (
-        <div className="w-full h-full justify-center items-center absolute bg-red-200 opacity-75">
-          <div className="w-12 h-12 relative left-1/2 top-1/2 rounded-full animate-spin border-x-8 border-solid border-orange-400 border-t-transparent"></div>
+    <>
+      <Head>
+        <title>{modo === "login" ? "Login" : "Registro"} | Find a friend</title>
+      </Head>
+
+      <div className="flex justify-center w-screen h-screen bg-white overflow-x-hidden">
+        {isLoading && (
+          <div className="w-full h-full justify-center items-center absolute bg-red-200 opacity-75">
+            <div className="w-12 h-12 relative left-1/2 top-1/2 rounded-full animate-spin border-x-8 border-solid border-orange-400 border-t-transparent"></div>
+          </div>
+        )}
+        <div className="flex w-1/2 h-full justify-center items-center">
+          <div className="flex flex-col w-1/2 h-4/5 bg-red-500 p-11 rounded-3xl justify-between items-center">
+            <div>
+              <Image src={logo} alt="logo da aplicação" />
+            </div>
+
+            <div className="w-64">
+              <Image src={logoPets} alt="logo 2 da aplicação" />
+            </div>
+          </div>
         </div>
-      )}
-      <div className="flex w-1/2 h-full justify-center items-center">
-        <div className="flex flex-col w-1/2 h-4/5 bg-red-500 p-11 rounded-3xl justify-between items-center">
+
+        <div className="flex w-1/2 h-full mt-36">
           <div>
-            <Image src={logo} alt="logo da aplicação" />
-          </div>
+            {modo === "login" ? (
+              <>
+                <div>
+                  <h2 className="font-nunito font-bold text-6xl text-gray-400">
+                    Boas-vindas!
+                  </h2>
+                </div>
 
-          <div className="w-64">
-            <Image src={logoPets} alt="logo 2 da aplicação" />
+                <div className="flex flex-col mt-16">
+                  {isLogin && <InvalidLogin />}
+
+                  <MyInput
+                    label="E-mail"
+                    placeholder="Digite sua senha..."
+                    type="email"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+
+                  <MyInput
+                    label="Senha"
+                    placeholder="Digite sua senha..."
+                    type="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+
+                  <button
+                    className="h-[72px] font-nunito font-extrabold text-xl text-white bg-gray-400 px-3 rounded-3xl my-12"
+                    onClick={handleLogin}
+                  >
+                    Login
+                  </button>
+
+                  <h4
+                    onClick={() => isModo("register")}
+                    className="font-nunito font-extrabold text-xl text-gray-400 text-center hover:underline cursor-pointer"
+                  >
+                    Cadastrar minha organização
+                  </h4>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="">
+                  <h2 className="font-nunito font-bold text-6xl text-gray-400">
+                    Cadastre sua <br /> organização
+                  </h2>
+                </div>
+                <div className="flex flex-col mt-16">
+                  <MyInput
+                    label="Nome do responsável"
+                    placeholder="Digite o nome do responsável..."
+                    onChange={(e) => setNome(e.target.value)}
+                  />
+
+                  <MyInput
+                    label="Nome da organização"
+                    placeholder="Digite o nome da organização..."
+                    onChange={(e) => setOrganizacao(e.target.value)}
+                  />
+
+                  <MyInput
+                    label="E-mail"
+                    placeholder="Digite seu e-mail..."
+                    type="email"
+                    onChange={(e) => setEmailCadastro(e.target.value)}
+                  />
+
+                  <MyInput
+                    label="CEP"
+                    placeholder="Digite o CEP..."
+                    onChange={(e) => setCep(e.target.value)}
+                  />
+
+                  <MyInput
+                    label="Endereço"
+                    placeholder="Digite o endereço..."
+                    onChange={(e) => setEndereco(e.target.value)}
+                  />
+
+                  <MyInput
+                    label="Estado"
+                    placeholder="Digite o estado..."
+                    onChange={(e) => setEstado(e.target.value)}
+                  />
+
+                  <MyInput
+                    label="Cidade"
+                    placeholder="Digite a cidade..."
+                    onChange={(e) => setcidade(e.target.value)}
+                  />
+
+                  <MyInput
+                    label="Whatsapp"
+                    placeholder="Digite o Whatsapp..."
+                    onChange={(e) => setWhatsapp(e.target.value)}
+                  />
+
+                  <MyInput
+                    label="Senha"
+                    placeholder="Digite sua senha..."
+                    type="password"
+                    onChange={(e) => setSenha(e.target.value)}
+                  />
+
+                  <input
+                    className="h-[72px] w-full font-nunito font-extrabold text-xl text-white bg-gray-400 px-3 rounded-3xl my-12"
+                    type="submit"
+                    placeholder="Enviar"
+                    onClick={handleCadastro}
+                  />
+
+                  <h4
+                    onClick={() => isModo("login")}
+                    className="font-nunito font-extrabold text-xl text-gray-400 text-center hover:underline cursor-pointer mb-10"
+                  >
+                    Já possui uma conta? Logar
+                  </h4>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
-
-      <div className="flex w-1/2 h-full mt-36">
-        <div>
-          {modo === "login" ? (
-            <>
-              <div>
-                <h2 className="font-nunito font-bold text-6xl text-gray-400">
-                  Boas-vindas!
-                </h2>
-              </div>
-
-              <div className="flex flex-col mt-16">
-                {isLogin && <InvalidLogin />}
-
-                <MyInput
-                  label="E-mail"
-                  placeholder="Digite sua senha..."
-                  type="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-
-                <MyInput
-                  label="Senha"
-                  placeholder="Digite sua senha..."
-                  type="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-
-                <button
-                  className="h-[72px] font-nunito font-extrabold text-xl text-white bg-gray-400 px-3 rounded-3xl my-12"
-                  onClick={handleLogin}
-                >
-                  Login
-                </button>
-
-                <h4
-                  onClick={() => isModo("register")}
-                  className="font-nunito font-extrabold text-xl text-gray-400 text-center hover:underline cursor-pointer"
-                >
-                  Cadastrar minha organização
-                </h4>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="">
-                <h2 className="font-nunito font-bold text-6xl text-gray-400">
-                  Cadastre sua <br /> organização
-                </h2>
-              </div>
-              <div className="flex flex-col mt-16">
-                <MyInput
-                  label="Nome do responsável"
-                  placeholder="Digite o nome do responsável..."
-                  onChange={(e) => setNome(e.target.value)}
-                />
-
-                <MyInput
-                  label="Nome da organização"
-                  placeholder="Digite o nome da organização..."
-                  onChange={(e) => setOrganizacao(e.target.value)}
-                />
-
-                <MyInput
-                  label="E-mail"
-                  placeholder="Digite seu e-mail..."
-                  type="email"
-                  onChange={(e) => setEmailCadastro(e.target.value)}
-                />
-
-                <MyInput
-                  label="CEP"
-                  placeholder="Digite o CEP..."
-                  onChange={(e) => setCep(e.target.value)}
-                />
-
-                <MyInput
-                  label="Endereço"
-                  placeholder="Digite o endereço..."
-                  onChange={(e) => setEndereco(e.target.value)}
-                />
-
-                <MyInput
-                  label="Estado"
-                  placeholder="Digite o estado..."
-                  onChange={(e) => setEstado(e.target.value)}
-                />
-
-                <MyInput
-                  label="Cidade"
-                  placeholder="Digite a cidade..."
-                  onChange={(e) => setcidade(e.target.value)}
-                />
-
-                <MyInput
-                  label="Whatsapp"
-                  placeholder="Digite o Whatsapp..."
-                  onChange={(e) => setWhatsapp(e.target.value)}
-                />
-
-                <MyInput
-                  label="Senha"
-                  placeholder="Digite sua senha..."
-                  type="password"
-                  onChange={(e) => setSenha(e.target.value)}
-                />
-
-                <input
-                  className="h-[72px] w-full font-nunito font-extrabold text-xl text-white bg-gray-400 px-3 rounded-3xl my-12"
-                  type="submit"
-                  placeholder="Enviar"
-                  onClick={handleCadastro}
-                />
-
-                <h4
-                  onClick={() => isModo("login")}
-                  className="font-nunito font-extrabold text-xl text-gray-400 text-center hover:underline cursor-pointer mb-10"
-                >
-                  Já possui uma conta? Logar
-                </h4>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
+    </>
   );
 }

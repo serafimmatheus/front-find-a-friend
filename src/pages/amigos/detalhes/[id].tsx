@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { api } from "@/data/api";
 import { GetServerSidePropsContext } from "next";
 import { Header } from "@/components/Header";
+import Head from "next/head";
 
 interface IPropsOrganizacao {
   cep: string;
@@ -67,6 +68,9 @@ export default function DetailsPet({ pet }: { pet: IPropsPets }) {
 
   return (
     <>
+      <Head>
+        <title>{pet.nome} | Find a friend</title>
+      </Head>
       <Header />
 
       <div className="flex w-screen h-screen">

@@ -1,14 +1,12 @@
 import Image from "next/image";
-import miniLogo from "../../../assets/mini-logo.png";
 import { Search } from "@/icons/icons";
-import imagemDoDoguinho from "../../../assets/jamie-street-UtrE5DcgEyg-unsplash.jpg";
-import imagemDoGatinho from "../../../assets/gato.png";
 import celo from "../../../assets/celo.png";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { api } from "@/data/api";
 import { GetServerSidePropsContext } from "next";
 import { Header } from "@/components/Header";
+import Head from "next/head";
 
 interface IPropsOrganizacao {
   cep: string;
@@ -80,6 +78,9 @@ export default function Amigos({
 
   return (
     <>
+      <Head>
+        <title>Pets | Find a friend</title>
+      </Head>
       <Header />
       <div className="bg-white w-full lg:h-full overflow-hidden">
         <div className="flex w-full h-full">
