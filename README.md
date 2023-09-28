@@ -14,3 +14,4 @@ Ficarei muito grato por dicas e sugestões para adicionar mais funcionalidades e
 
 - **GitHub:** [https://github.com/serafimmatheus/front-find-a-friend](https://github.com/serafimmatheus/front-find-a-friend)
 - **Site:** [https://front-find-a-friend.vercel.app/](https://front-find-a-friend.vercel.app/)
+- **Discord:** Serafim#1037
