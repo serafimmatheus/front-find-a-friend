@@ -48,6 +48,9 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
         setToken(responde.data.token);
 
         if (!responde.data.user && !responde.data.token) {
+          setIsLogin(true);
+          setIsLoadin(false);
+
           return;
         }
 
