@@ -46,6 +46,11 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
       .then((responde) => {
         setUsuario(responde.data.user);
         setToken(responde.data.token);
+
+        if (!responde.data.user && !responde.data.token) {
+          return;
+        }
+
         localStorage.setItem("token-find-a-friends", responde.data.token);
         localStorage.setItem(
           "user-find-a-friends",
