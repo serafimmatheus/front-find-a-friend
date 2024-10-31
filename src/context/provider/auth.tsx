@@ -18,8 +18,13 @@ interface IPropsUsuario {
   whatsapp: string
 }
 
+interface LoginProps {
+  email: string
+  password: string
+}
+
 interface AuthContextIProps {
-  login(email: string, password: string): Promise<void>
+  login({ email, password }: LoginProps): Promise<void>
   usuario: any
   sairDaAplicacao(): Promise<void>
   isLogin: boolean
@@ -39,7 +44,7 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
 
   const router = useRouter()
 
-  async function login(email: string, password: string) {
+  async function login({ email, password }: LoginProps) {
     setIsLoadin(true)
     await api
       .post('/login', { email, password })

@@ -1,47 +1,97 @@
-import { HeaderProfile } from "@/components/HeaderProfile";
-import MyInput from "@/components/MyInput";
-import RoutePrivate from "@/components/routePrivates";
-import { useAuthContext } from "@/context/hooks/useAuthProvider";
-import { api } from "@/data/api";
-import Head from "next/head";
-import { useState } from "react";
+import { HeaderProfile } from '@/components/HeaderProfile'
+import MyInput from '@/components/MyInput'
+import RoutePrivate from '@/components/routePrivates'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { useAuthContext } from '@/context/hooks/useAuthProvider'
+import { api } from '@/data/api'
+import { saveUser } from '@/https/saveUser'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import Head from 'next/head'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+export const schemaRegisterForm = z.object({
+  nome: z
+    .string()
+    .min(3, {
+      message: 'Nome deve ter no mínimo 3 caracteres',
+    })
+    .max(255, {
+      message: 'Nome deve ter no máximo 255 caracteres',
+    }),
+  organizacao: z
+    .string()
+    .min(3, {
+      message: 'Nome da organização deve ter no mínimo 3 caracteres',
+    })
+    .max(255, {
+      message: 'Nome da organização deve ter no máximo 255 caracteres',
+    }),
+  email: z.string().email(),
+  cep: z
+    .string()
+    .min(8, {
+      message: 'CEP deve ter no mínimo 8 caracteres',
+    })
+    .max(8, {
+      message: 'CEP deve ter no máximo 8 caracteres',
+    }),
+  estado: z
+    .string()
+    .min(2, {
+      message: 'Estado deve ter no mínimo 2 caracteres',
+    })
+    .max(2, {
+      message: 'Estado deve ter no máximo 2 caracteres',
+    }),
+  cidade: z.string(),
+  endereco: z.string(),
+  whatsapp: z
+    .string()
+    .min(11, {
+      message: 'Whatsapp deve ter no mínimo 11 caracteres',
+    })
+    .max(12, {
+      message: 'Whatsapp deve ter no máximo 12 caracteres',
+    }),
+})
+
+type IPropsRegisterForm = z.infer<typeof schemaRegisterForm>
 
 export default function Profile() {
-  const { usuario } = useAuthContext();
+  const { usuario } = useAuthContext()
 
-  const [nome, setNome] = useState(usuario.nome);
-  const [organizacao, setOrganizacao] = useState(usuario.organizacao);
-  const [cep, setCep] = useState(usuario.cep);
-  const [estado, setEstado] = useState(usuario.estado);
-  const [cidade, setCidade] = useState(usuario.cidade);
-  const [endereco, setEndereco] = useState(usuario.endereco);
-  const [whatsapp, setWhatsapp] = useState(usuario.whatsapp);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IPropsRegisterForm>({
+    resolver: zodResolver(schemaRegisterForm),
+    defaultValues: {
+      nome: usuario.nome,
+      organizacao: usuario.organizacao,
+      email: usuario.email,
+      cep: usuario.cep,
+      estado: usuario.estado,
+      cidade: usuario.cidade,
+      endereco: usuario.endereco,
+      whatsapp: usuario.whatsapp,
+    },
+  })
 
-  async function handleSaveUser() {
-    const data = {
-      nome,
-      organizacao,
-      cep,
-      estado,
-      cidade,
-      endereco,
-      whatsapp,
-    };
+  const { mutateAsync: saveUserFn, isPending } = useMutation({
+    mutationFn: saveUser,
 
-    await api
-      .put(`/organizacoes/${usuario.id}`, data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem(
-            "token-find-a-friends"
-          )}`,
-        },
-      })
-      .then((__) => {
-        location.reload();
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    onSuccess: () => {
+      alert('Usuário salvo com sucesso')
+    },
+  })
+
+  async function handleSaveUser(data: IPropsRegisterForm) {
+    await saveUserFn({ id: usuario.id, data: data })
   }
 
   return (
@@ -51,82 +101,158 @@ export default function Profile() {
       </Head>
       <RoutePrivate>
         <HeaderProfile />
-        <div className="flex container m-auto">
-          <div className="flex flex-col w-full mt-28">
-            <div>
-              <h2 className="font-nunito text-5xl text-gray-400">
-                Minha conta
-              </h2>
-            </div>
+        <div className='grid grid-cols-5 max-w-7xl px-5 m-auto pt-32'>
+          <div className='col-span-2'>
+            <h2 className='font-nunito text-5xl text-gray-400'>Minha conta</h2>
+          </div>
 
-            <div className="w-full py-10">
-              <MyInput
-                label="Nome"
-                placeholder=""
-                onChange={(e) => setNome(e.target.value)}
-                defaultValue={usuario.nome}
-              />
-              <MyInput
-                label="Organização"
-                placeholder=""
-                defaultValue={usuario.organizacao}
-                onChange={(e) => setOrganizacao(e.target.value)}
-              />
+          <form
+            onSubmit={handleSubmit(handleSaveUser)}
+            className='flex flex-col w-full col-span-3'
+          >
+            <div className='w-full flex flex-col gap-5'>
+              <div className='flex flex-col gap-2'>
+                <Label htmlFor='Nome'>Nome</Label>
 
-              <MyInput
-                label="E-mail"
-                placeholder=""
-                value={usuario.email}
-                disabled
-              />
+                <Input
+                  placeholder='Nome'
+                  className='h-12 border border-gray-400'
+                  defaultValue={usuario.nome}
+                  {...register('nome')}
+                />
 
-              <MyInput
-                label="Estado"
-                placeholder=""
-                defaultValue={usuario.estado}
-                onChange={(e) => setEstado(e.target.value)}
-              />
+                {errors.nome && (
+                  <span className='text-red-400 font-nunito text-xs'>
+                    {errors.nome?.message}
+                  </span>
+                )}
+              </div>
 
-              <MyInput
-                label="Cidade"
-                placeholder=""
-                defaultValue={usuario.cidade}
-                onChange={(e) => setCidade(e.target.value)}
-              />
+              <div className='flex flex-col gap-2'>
+                <Label htmlFor='organizacao'>Organização</Label>
 
-              <MyInput
-                label="Endereço"
-                placeholder=""
-                defaultValue={usuario.endereco}
-                onChange={(e) => setEndereco(e.target.value)}
-              />
+                <Input
+                  placeholder='Organização'
+                  className='h-12 border border-gray-400'
+                  defaultValue={usuario.organizacao}
+                  {...register('organizacao')}
+                />
 
-              <MyInput
-                label="CEP"
-                placeholder=""
-                defaultValue={usuario.cep}
-                onChange={(e) => setCep(e.target.value)}
-              />
+                {errors.organizacao && (
+                  <span className='text-red-400 font-nunito text-xs'>
+                    {errors.organizacao?.message}
+                  </span>
+                )}
+              </div>
 
-              <MyInput
-                label="WhatsApp"
-                placeholder=""
-                defaultValue={usuario.whatsapp}
-                onChange={(e) => setWhatsapp(e.target.value)}
-              />
-            </div>
+              <div className='flex flex-col gap-2'>
+                <Label htmlFor='email'>E-mail</Label>
 
-            <div className="flex pb-10">
-              <button
-                className="bg-green-400 px-10 py-4 rounded-xl text-white font-nunito text-base font-semibold hover:bg-opacity-90 transition"
-                onClick={handleSaveUser}
+                <Input
+                  disabled
+                  placeholder='E-mail'
+                  className='h-12 border border-gray-400'
+                  defaultValue={usuario.email}
+                  {...register('email')}
+                />
+              </div>
+
+              <div className='flex flex-col gap-2'>
+                <Label htmlFor='cep'>CEP</Label>
+
+                <Input
+                  placeholder='CEP'
+                  className='h-12 border border-gray-400'
+                  defaultValue={usuario.cep}
+                  {...register('cep')}
+                />
+
+                {errors.cep && (
+                  <span className='text-red-400 font-nunito text-xs'>
+                    {errors.cep?.message}
+                  </span>
+                )}
+              </div>
+
+              <div className='flex flex-col gap-2'>
+                <Label htmlFor='estado'>Estado</Label>
+
+                <Input
+                  placeholder='Estado'
+                  className='h-12 border border-gray-400'
+                  defaultValue={usuario.estado}
+                  {...register('estado')}
+                />
+
+                {errors.estado && (
+                  <span className='text-red-400 font-nunito text-xs'>
+                    {errors.estado?.message}
+                  </span>
+                )}
+              </div>
+
+              <div className='flex flex-col gap-2'>
+                <Label htmlFor='cidade'>Cidade</Label>
+
+                <Input
+                  placeholder='Cidade'
+                  className='h-12 border border-gray-400'
+                  defaultValue={usuario.cidade}
+                  {...register('cidade')}
+                />
+
+                {errors.cidade && (
+                  <span className='text-red-400 font-nunito text-xs'>
+                    {errors.cidade?.message}
+                  </span>
+                )}
+              </div>
+
+              <div className='flex flex-col gap-2'>
+                <Label htmlFor='endereco'>Endereço</Label>
+
+                <Input
+                  placeholder='Endereço'
+                  className='h-12 border border-gray-400'
+                  defaultValue={usuario.endereco}
+                  {...register('endereco')}
+                />
+
+                {errors.endereco && (
+                  <span className='text-red-400 font-nunito text-xs'>
+                    {errors.endereco?.message}
+                  </span>
+                )}
+              </div>
+
+              <div className='flex flex-col gap-2'>
+                <Label htmlFor='whatsApp'>WhatsApp</Label>
+
+                <Input
+                  placeholder='WhatsApp'
+                  className='h-12 border border-gray-400'
+                  defaultValue={usuario.whatsApp}
+                  {...register('whatsapp')}
+                />
+
+                {errors.whatsapp && (
+                  <span className='text-red-400 font-nunito text-xs'>
+                    {errors.whatsapp?.message}
+                  </span>
+                )}
+              </div>
+
+              <Button
+                disabled={isPending}
+                className='bg-green-400 h-12 text-white font-nunito text-base font-semibold hover:bg-green-400 hover:opacity-80 transition'
+                type='submit'
               >
                 Salvar
-              </button>
+              </Button>
             </div>
-          </div>
+          </form>
         </div>
       </RoutePrivate>
     </>
-  );
+  )
 }

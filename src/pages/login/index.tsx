@@ -22,7 +22,7 @@ import { getCep } from '@/https/getCep'
 import { House } from 'lucide-react'
 import { createOrganization } from '@/https/createOrganization'
 
-const schemaRegisterForm = z.object({
+export const schemaRegisterForm = z.object({
   nome: z
     .string()
     .min(3, {
@@ -101,10 +101,13 @@ export default function Login() {
     resolver: zodResolver(schemaRegisterForm),
   })
 
-  const { handleSubmit: handleSubmitLoginForm, register: registerLoginForm } =
-    useForm<LoginForm>({
-      resolver: zodResolver(schemaLoginForm),
-    })
+  const {
+    handleSubmit: handleSubmitLoginForm,
+    register: registerLoginForm,
+    reset: resetLogin,
+  } = useForm<LoginForm>({
+    resolver: zodResolver(schemaLoginForm),
+  })
 
   const { login, isLogin, isLoading } = useAuthContext()
 
@@ -120,13 +123,23 @@ export default function Login() {
     },
   })
 
+  const { mutateAsync: loginFn } = useMutation({
+    mutationFn: login,
+    onError: (error) => {
+      resetLogin()
+    },
+    onSuccess: (data) => {
+      resetLogin()
+    },
+  })
+
   async function handleCadastro(data: IPropsHookForm) {
     createOrganizationFn(data)
   }
 
   async function handleLogin(data: LoginForm) {
     const { email, password } = data
-    await login(email, password)
+    await loginFn({ email, password })
   }
 
   const { data, isFetching } = useQuery({
