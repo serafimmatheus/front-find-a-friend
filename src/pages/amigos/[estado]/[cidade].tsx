@@ -8,6 +8,8 @@ import { GetServerSidePropsContext } from 'next'
 import { Header } from '@/components/Header'
 import Head from 'next/head'
 import { SearchFriends } from '@/components/searchFriends'
+import { useQuery } from '@tanstack/react-query'
+import { getPets } from '@/https/getPets'
 
 interface IPropsOrganizacao {
   cep: string
@@ -34,35 +36,20 @@ interface IPropsPets {
   petId: IPropsOrganizacao
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // Faça a chamada para a API
-  const { cidade, estado } = context.query
-
-  let data: IPropsPets[] = []
-  await api.get(`/pets/${estado}/${cidade}`).then((response) => {
-    data = data.concat(response.data)
-  })
-
-  // Retorne os dados como propriedades da página
-  return {
-    props: {
-      data,
-      cidade,
-      estado,
-    },
-  }
-}
-
-export default function Amigos({
-  data,
-  estado,
-  cidade,
-}: {
-  data: IPropsPets[]
-  estado: string
-  cidade: string
-}) {
+export default function Amigos() {
   const route = useRouter()
+
+  const estado = route.query.estado as string
+  const cidade = route.query.cidade as string
+
+  const {
+    data: pets,
+    isFetched: petsIsFetched,
+    isError: petsIsError,
+  } = useQuery({
+    queryKey: ['pets', estado, cidade],
+    queryFn: () => getPets({ cidade, estado }),
+  })
 
   function irParaDetalhesDoPet(id: string) {
     route.push(`/amigos/detalhes/${id}`)
@@ -72,7 +59,7 @@ export default function Amigos({
     route.push(`/amigos/${estado}/${cidade}`)
   }
 
-  useEffect(() => {}, [data, estado, cidade])
+  // useEffect(() => {}, [data, estado, cidade])
 
   return (
     <>
@@ -142,7 +129,7 @@ export default function Amigos({
           <div className='navigation w-full flex-1 h-screen pr-10 pl-5 bg-gray-100'>
             <div className='flex justify-between items-center pt-40'>
               <h1 className='font-nunito text-xl font-normal text-gray-400'>
-                Encontre <b>{data.length}</b> amigos na sua cidade
+                Encontre <b>{pets?.length ?? 0}</b> amigo(s) na sua cidade.
               </h1>
 
               <select className='h-[60px] bg-red-200 rounded-2xl px-4 optional:text-gray-400 optional:text-base optional:font-nunito optional:font-normal outline-none'>
@@ -152,15 +139,25 @@ export default function Amigos({
               </select>
             </div>
 
+            {/* {petsIsFetched && (
+              <div className='flex w-full h-1/2 border border-dashed mt-8 items-center justify-center animate-pulse'>
+                <p className='text-2xl text-gray-400 font-nunito font-semibold'>
+                  Carregando...
+                </p>
+              </div>
+            )}
+
+            {petsIsError && (
+              <div className='flex w-full h-1/2 border border-dashed mt-8 items-center justify-center animate-pulse'>
+                <p className='text-2xl text-gray-400 font-nunito font-semibold'>
+                  Ocorreu um erro ao buscar os pets
+                </p>
+              </div>
+            )} */}
+
             <div className='flex flex-wrap justify-start gap-5 overflow-auto w-full h-2/3 mt-10 pb-10 pl-2'>
-              {data?.length === 0 ? (
-                <div className='flex w-full border border-dashed animate-pulse justify-center items-center'>
-                  <p className='text-2xl text-gray-400 font-nunito font-semibold'>
-                    Não encontramos nenhum pet para na sua região
-                  </p>
-                </div>
-              ) : (
-                data.map((elem) => {
+              {pets?.length > 0 ? (
+                pets?.map((elem: any) => {
                   return (
                     <div
                       key={elem.id}
@@ -194,6 +191,12 @@ export default function Amigos({
                     </div>
                   )
                 })
+              ) : (
+                <div className='flex w-full h-1/2 border border-dashed mt-8 items-center justify-center animate-pulse'>
+                  <p className='text-2xl text-gray-400 font-nunito font-semibold'>
+                    Não encontramos nenhum pet na sua região
+                  </p>
+                </div>
               )}
             </div>
           </div>

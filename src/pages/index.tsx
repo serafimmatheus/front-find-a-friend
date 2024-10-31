@@ -33,7 +33,7 @@ export default function Home() {
 
               <Button
                 className='rounded-full'
-                onClick={() => route.push('/login')}
+                onClick={() => route.push('/login?isRegister=true')}
               >
                 cadastrar
               </Button>
