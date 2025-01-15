@@ -2,13 +2,13 @@ import Image from 'next/image'
 import logo from '../../assets/logo.png'
 import logoPets from '../../assets/dogs.png'
 import { useEffect, useState } from 'react'
-import MyInput from '@/components/MyInput'
+
 import { useAuthContext } from '@/context/hooks/useAuthProvider'
-import RoutePrivate from '@/components/routePrivates'
+
 import InvalidLogin from '@/components/invalidLogin'
 
-import { useForm, SubmitHandler } from 'react-hook-form'
-import { api } from '@/data/api'
+import { useForm } from 'react-hook-form'
+
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Link from 'next/link'

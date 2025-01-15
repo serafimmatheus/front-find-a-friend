@@ -14,6 +14,7 @@ export default function Home() {
       <Head>
         <title>Find a friend</title>
         <link rel='icon' href='/mini-logo.ico' />
+        <meta name="site-verification" content="ae11093bd300cc6549b2bc34d6a3220a" />
       </Head>
       <main className='bg-red-500 w-screen min-h-screen'>
         <div className='container flex flex-col w-full max-w-7xl my-0 mx-auto px-4'>

@@ -7,7 +7,7 @@ import { useAuthContext } from "@/context/hooks/useAuthProvider";
 import { useState } from "react";
 import { api } from "@/data/api";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HeaderProfile } from "@/components/HeaderProfile";
 import RoutePrivate from "@/components/routePrivates";
