@@ -12,7 +12,7 @@ export function Header() {
 
   return (
     <header className="w-full h-24 bg-red-500 fixed z-50">
-      <div className="w-full h-full container m-auto">
+      <div className="w-full h-full container m-auto px-4">
         <div className="flex justify-between w-full h-full items-center">
           <div className="w-[215px] h-[56px] relative items-center">
             <Image src={logo} alt="Find a friends" fill />

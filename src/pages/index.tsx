@@ -17,11 +17,11 @@ export default function Home() {
         <meta name="site-verification" content="ae11093bd300cc6549b2bc34d6a3220a" />
 
       </Head>
-      <main className='bg-red-500 w-screen min-h-screen'>
+      <main className='bg-red-500 w-full h-full'>
       <script src="https://cdn.diclotrans.com/sdk/v1/46443/7cf9efcd5baf2581975898e9739e2c9349106b54/lib.js" async />
-        <div className='container flex flex-col w-full max-w-7xl my-0 mx-auto px-4'>
-          <div className='flex pt-10 sm:pt-24 justify-between items-center w-full'>
-            <div className=' w-[215px] h-[56px]  '>
+        <div className='flex flex-col container'>
+          <header className='flex flex-col sm:flex-row gap-8 pt-10 sm:pt-4 justify-between items-center w-full'>
+            <div className='w-[215px] h-[56px]  '>
               <Image src={logo} alt='Logo' />
             </div>
 
@@ -41,7 +41,7 @@ export default function Home() {
                 cadastrar
               </Button>
             </div>
-          </div>
+          </header>
 
           <div className='w-full pt-32 sm:flex items-end justify-center'>
             <div className='sm:w-1/2 flex mb-10'>
@@ -54,15 +54,15 @@ export default function Home() {
             </div>
           </div>
 
-          <div className='flex flex-col lg:flex-row  pt-28 items-center'>
+          <div className='flex flex-col lg:flex-row pb-8 pt-28 items-center'>
             <div className='flex sm:w-1/2 mb-10'>
-              <p className='text-white font-semibold text-2xl w-[407px] text-center sm:text-start'>
+              <p className='text-white font-semibold text-2xl w-full max-w-[407px] text-center sm:text-start'>
                 Encontre o animal de estimação ideal para seu estilo de vida!
               </p>
             </div>
 
-            <div className='flex items-center gap-10 justify-end w-full md:w-1/2'>
-              <p className='w-1/3 text-white text-lg'>Busque seu amigo:</p>
+            <div className='flex flex-col gap-4 sm:flex-row items-center sm:gap-10 justify-end w-full md:w-1/2'>
+              <p className='w-full sm:w-1/3 text-white text-lg'>Busque seu amigo:</p>
 
               <SearchFriends />
             </div>

@@ -174,7 +174,7 @@ export default function Login() {
             <div className='w-12 h-12 relative left-1/2 top-1/2 rounded-full animate-spin border-x-8 border-solid border-orange-400 border-t-transparent'></div>
           </div>
         )}
-        <div className='cols-span-1 hidden lg:block flex w-full h-screen justify-center items-center'>
+        <div className='cols-span-1 hidden lg:flex w-full h-screen justify-center items-center'>
           <div className='flex flex-col w-full h-full bg-red-500 p-11 justify-between items-center'>
             <Link href='/'>
               <Image src={logo} alt='logo da aplicação' />

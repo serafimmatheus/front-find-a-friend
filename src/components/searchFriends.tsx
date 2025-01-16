@@ -103,7 +103,7 @@ export const SearchFriends = () => {
         name='estado'
         render={({ field }) => (
           <Select onValueChange={field.onChange} defaultValue={field.value}>
-            <SelectTrigger className='w-[65px]'>
+            <SelectTrigger className='w-full sm:w-[65px]'>
               <SelectValue defaultValue={states[0]} />
             </SelectTrigger>
             <SelectContent>
@@ -145,7 +145,7 @@ export const SearchFriends = () => {
       <Button
         type='submit'
         size='icon'
-        className='bg-yellow hover:bg-yellow hover:opacity-90 w-14 h-9'
+        className='bg-yellow hover:bg-yellow hover:opacity-90 w-full sm:w-14 h-9'
       >
         <Search />
       </Button>
