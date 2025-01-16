@@ -3,16 +3,19 @@ import Image from "next/image";
 
 import logo from "../assets/logo.png";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export function HeaderProfile() {
   const router = useRouter();
 
   return (
-    <header className="w-full h-24 bg-red-500 fixed">
+    <header className="w-full h-24 bg-red-500 fixed z-50">
       <div className="w-full h-full container m-auto">
         <div className="flex justify-between w-full h-full items-center">
           <div className="w-[215px] h-[56px] relative items-center">
-            <Image src={logo} alt="Find a friends" fill />
+            <Link href="/">
+              <Image src={logo} alt="Find a friends" fill />
+            </Link>
           </div>
 
           <ul className="flex items-center gap-4">

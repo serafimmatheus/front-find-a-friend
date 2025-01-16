@@ -101,7 +101,7 @@ export default function Profile() {
       </Head>
       <RoutePrivate>
         <HeaderProfile />
-        <div className='grid grid-cols-5 max-w-7xl px-5 m-auto pt-32'>
+        <div className='grid grid-cols-5 max-w-7xl px-5 m-auto pt-32 pb-4 md:pb-12'>
           <div className='col-span-2'>
             <h2 className='font-nunito text-5xl text-gray-400'>Minha conta</h2>
           </div>
