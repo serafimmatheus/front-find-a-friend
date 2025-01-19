@@ -20,7 +20,7 @@ import { Button } from '@/components/ui/button'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { getCep } from '@/https/getCep'
 import { House } from 'lucide-react'
-import { createOrganization } from '@/https/createOrganization'
+import { useMask } from '@react-input/mask'
 
 export const schemaRegisterForm = z.object({
   nome: z
@@ -42,10 +42,10 @@ export const schemaRegisterForm = z.object({
   email: z.string().email(),
   cep: z
     .string()
-    .min(8, {
+    .min(9, {
       message: 'CEP deve ter no mínimo 8 caracteres',
     })
-    .max(8, {
+    .max(9, {
       message: 'CEP deve ter no máximo 8 caracteres',
     }),
   estado: z
@@ -60,10 +60,10 @@ export const schemaRegisterForm = z.object({
   endereco: z.string(),
   whatsapp: z
     .string()
-    .min(11, {
+    .min(15, {
       message: 'Whatsapp deve ter no mínimo 11 caracteres',
     })
-    .max(12, {
+    .max(15, {
       message: 'Whatsapp deve ter no máximo 12 caracteres',
     }),
   password: z
@@ -109,7 +109,7 @@ export default function Login() {
     resolver: zodResolver(schemaLoginForm),
   })
 
-  const { login, isLogin, isLoading } = useAuthContext()
+  const { login, isLogin, isLoading, createOrganization } = useAuthContext()
 
   const { mutateAsync: createOrganizationFn } = useMutation({
     mutationFn: createOrganization,
@@ -134,7 +134,12 @@ export default function Login() {
   })
 
   async function handleCadastro(data: IPropsHookForm) {
-    createOrganizationFn(data)
+    const newData = {
+      ...data,
+      cep: data.cep.replace(/\D/g, ''),
+      whatsapp: data.whatsapp.replace(/\D/g, ''),
+    }
+    createOrganizationFn(newData)
   }
 
   async function handleLogin(data: LoginForm) {
@@ -161,6 +166,16 @@ export default function Login() {
 
     checkRouterPage()
   }, [route])
+
+  const inputRef = useMask({
+    mask: '(__) _____-____',
+    replacement: { _: /\d/ },
+  });
+
+  const inputRefCep = useMask({
+    mask: '_____-___',
+    replacement: { _: /\d/ },
+  });
 
   return (
     <>
@@ -189,7 +204,7 @@ export default function Login() {
         <div className='cols-span-1 flex w-full h-screen'>
           <div className='w-full pt-14 max-w-7xl px-5 lg:px-0 lg:pr-14 mx-auto overflow-auto'>
             {modo === 'login' ? (
-              <>
+              <section className='max-w-xl mx-auto w-full'>
                 <div className='flex items-center gap-5 justify-between'>
                   <h2 className='font-nunito font-bold text-lg md:text-3xl text-gray-400'>
                     Boas-vindas!
@@ -244,9 +259,9 @@ export default function Login() {
                     </Button>
                   </div>
                 </form>
-              </>
+              </section>
             ) : (
-              <>
+              <section className='max-w-xl mx-auto w-full'>
                 <div className='flex items-center gap-5 justify-between'>
                   <h2 className='font-nunito font-bold text-lg md:text-3xl text-gray-400'>
                     Cadastre sua organização
@@ -306,9 +321,13 @@ export default function Login() {
                     <div className='flex flex-col gap-2'>
                       <Label htmlFor='cep'>CEP</Label>
                       <Input
-                        placeholder='Digite apenas numeros...'
-                        className='border-gray-400 text-gray-400 h-12'
-                        {...registerForm('cep')}
+                      placeholder='_____ - ___'
+                      className='border-gray-400 text-gray-400 h-12'
+                      {...registerForm('cep', { setValueAs: (value) => inputRefCep.current?.value || value })}
+                      ref={(e) => {
+                        registerForm('cep').ref(e);
+                        if (e) inputRefCep.current = e;
+                      }}
                       />
                       {errorsForm.cep && (
                         <span className='text-red-500 text-xs'>
@@ -332,45 +351,49 @@ export default function Login() {
                       )}
                     </div>
 
-                    <div className='flex flex-col gap-2'>
-                      <Label htmlFor='estado'>Estado</Label>
-                      <Input
-                        disabled={isFetching}
-                        maxLength={2}
-                        placeholder='Digite o estado...'
-                        className='border-gray-400 text-gray-400 h-12'
-                        {...registerForm('estado')}
-                      />
-                      {errorsForm.estado && (
-                        <span className='text-red-500 text-xs'>
-                          {errorsForm.estado.message}
-                        </span>
-                      )}
-                    </div>
+                    <div className='grid grid-cols-1 sm:grid-cols-5 gap-4'>
+                      <div className='sm:col-span-1 flex flex-col gap-2'>
+                        <Label htmlFor='estado'>Estado</Label>
+                        <Input
+                          disabled={isFetching}
+                          maxLength={2}
+                          placeholder='Digite o estado...'
+                          className='border-gray-400 text-gray-400 h-12'
+                          {...registerForm('estado')}
+                        />
+                        {errorsForm.estado && (
+                          <span className='text-red-500 text-xs'>
+                            {errorsForm.estado.message}
+                          </span>
+                        )}
+                      </div>
 
-                    <div className='flex flex-col gap-2'>
-                      <Label htmlFor='cidade'>Cidade</Label>
-                      <Input
-                        disabled={isFetching}
-                        placeholder='Digite a cidade...'
-                        className='border-gray-400 text-gray-400 h-12'
-                        {...registerForm('cidade')}
-                      />
-                      {errorsForm.cidade && (
-                        <span className='text-red-500 text-xs'>
-                          {errorsForm.cidade.message}
-                        </span>
-                      )}
+                      <div className='sm:col-span-4 flex flex-col gap-2'>
+                        <Label htmlFor='cidade'>Cidade</Label>
+                        <Input
+                          disabled={isFetching}
+                          placeholder='Digite a cidade...'
+                          className='border-gray-400 text-gray-400 h-12'
+                          {...registerForm('cidade')}
+                        />
+                        {errorsForm.cidade && (
+                          <span className='text-red-500 text-xs'>
+                            {errorsForm.cidade.message}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     <div className='flex flex-col gap-2'>
                       <Label htmlFor='whatsapp'>Whatsapp</Label>
                       <Input
-                        maxLength={12}
-                        type='tel'
-                        placeholder='Digite o Whatsapp...'
+                        placeholder='(__) _____-____'
                         className='border-gray-400 text-gray-400 h-12'
-                        {...registerForm('whatsapp')}
+                        {...registerForm('whatsapp', { setValueAs: (value) => inputRef.current?.value || value })}
+                        ref={(e) => {
+                          registerForm('whatsapp').ref(e);
+                          if (e) inputRef.current = e;
+                        }}
                       />
                       {errorsForm.whatsapp && (
                         <span className='text-red-500 text-xs'>
@@ -412,7 +435,7 @@ export default function Login() {
                     </Button>
                   </div>
                 </form>
-              </>
+              </section>
             )}
           </div>
         </div>

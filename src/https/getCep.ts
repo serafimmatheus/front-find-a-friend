@@ -5,7 +5,7 @@ interface IPropsCep {
 }
 
 export async function getCep({ cep }: IPropsCep) {
-  if (cep.length !== 8) {
+  if (cep.length !== 9) {
     return
   }
 

@@ -1,4 +1,5 @@
 import { api } from '@/data/api'
+import { IPropsHookForm } from '@/pages/login'
 import jwt from 'jsonwebtoken'
 import { useRouter } from 'next/router'
 import React, { createContext, useEffect, useState } from 'react'
@@ -24,12 +25,13 @@ interface LoginProps {
 }
 
 interface AuthContextIProps {
-  login({ email, password }: LoginProps): Promise<void>
   usuario: any
-  sairDaAplicacao(): Promise<void>
   isLogin: boolean
   token: string | undefined
   isLoading: boolean
+  login({ email, password }: LoginProps): Promise<void>
+  sairDaAplicacao(): Promise<void>
+  createOrganization(data: IPropsHookForm): Promise<any>
 }
 
 export const AuthContext = createContext<AuthContextIProps>(
@@ -86,6 +88,16 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
     router.push('/')
   }
 
+  async function createOrganization(data: IPropsHookForm)  {
+    await fetch('https://api-find-a-friends.vercel.app/api/v1/organizacoes', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  }
+
   useEffect(() => {
     if (localStorage.getItem('token-find-a-friends')) {
       const token: any = localStorage.getItem('token-find-a-friends')
@@ -103,7 +115,7 @@ export function AuthProvider({ children }: IPropsAuthProvider) {
 
   return (
     <AuthContext.Provider
-      value={{ login, usuario, sairDaAplicacao, isLogin, token, isLoading }}
+      value={{usuario, isLogin, token, isLoading,login, createOrganization, sairDaAplicacao }}
     >
       {children}
     </AuthContext.Provider>

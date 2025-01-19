@@ -15,11 +15,10 @@ export default function Home() {
         <title>Find a friend</title>
         <link rel='icon' href='/mini-logo.ico' />
         <meta name="site-verification" content="ae11093bd300cc6549b2bc34d6a3220a" />
-
+        <script src="https://cdn.diclotrans.com/sdk/v1/46443/7cf9efcd5baf2581975898e9739e2c9349106b54/lib.js" async />
       </Head>
       <main className='bg-red-500 w-full h-full'>
-      <script src="https://cdn.diclotrans.com/sdk/v1/46443/7cf9efcd5baf2581975898e9739e2c9349106b54/lib.js" async />
-        <div className='flex flex-col container'>
+        <div className='flex flex-col h-full container justify-between'>
           <header className='flex flex-col sm:flex-row gap-8 pt-10 sm:pt-4 justify-between items-center w-full'>
             <div className='w-[215px] h-[56px]  '>
               <Image src={logo} alt='Logo' />

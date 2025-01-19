@@ -9,9 +9,9 @@ export function HeaderProfile() {
   const router = useRouter();
 
   return (
-    <header className="w-full h-24 bg-red-500 fixed z-50">
-      <div className="w-full h-full container m-auto">
-        <div className="flex justify-between w-full h-full items-center">
+    <header className="w-full h-auto sm:h-24 bg-red-500 fixed z-50">
+      <div className="w-full h-full max-w-[1440px] mx-auto px-5 py-3">
+        <div className="flex flex-col gap-4 sm:flex-row justify-between w-full h-full items-center">
           <div className="w-[215px] h-[56px] relative items-center">
             <Link href="/">
               <Image src={logo} alt="Find a friends" fill />
@@ -50,19 +50,4 @@ export function HeaderProfile() {
       </div>
     </header>
   );
-}
-
-{
-  /* <div className="flex flex-col w-36 h-full bg-red-500 items-center justify-between">
-<div className="flex my-10">
-  <Image src={miniLogo} alt="Mini logo da aplicação" />
-</div>
-
-<button
-  onClick={backPage}
-  className="w-12 h-12 bg-yellow flex flex-col justify-center items-center text-white my-5 rounded-[20px]"
->
-  <FlechaParaEsquerda />
-</button>
-</div> */
 }

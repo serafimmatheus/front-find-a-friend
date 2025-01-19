@@ -12,6 +12,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { HeaderProfile } from "@/components/HeaderProfile";
 import RoutePrivate from "@/components/routePrivates";
 import Head from "next/head";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 export default function CadastroPets() {
   const route = useRouter();
@@ -105,73 +108,75 @@ export default function CadastroPets() {
         <HeaderProfile />
         <div className="flex w-full">
           <div className="flex w-full h-full bg-red-150 overflow-hidden pb-20  mt-10">
-            <div className="flex flex-col w-full h-full items-center overflow-auto">
-              <div className="flex gap-8 h-[120px] bg-gray-400 w-1/2 items-center justify-between px-20 rounded-3xl mt-24">
+            <div className="flex flex-col w-full max-w-3xl px-4 mx-auto h-full items-center overflow-auto">
+              <div className="flex gap-8 h-[120px] bg-gray-400 w-full items-center justify-between px-4 sm:px-10 md:px-20 rounded-xl mt-24">
                 <div className="flex items-center py-20 gap-6">
-                  <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-orange-400">
+                  <div className="flex items-center justify-center w-11 h-11 sm:w-16 sm:h-16 rounded-xl bg-orange-400 p-2">
                     <Image src={miniLogo} alt="loguinho" />
                   </div>
 
                   <div className="flex flex-col">
-                    <h2 className="font-nunito font-bold text-white text-3xl">
+                    <h2 className="font-nunito font-bold text-white text-lg md:text-3xl">
                       {usuario.organizacao}
                     </h2>
-                    <p className="font-nunito font-normal text-white text-base">
+                    <p className="font-nunito font-normal text-white text-sm md:text-base">
                       {usuario.endereco}, {usuario.cidade}, {usuario.estado}
                     </p>
                   </div>
                 </div>
 
                 <div
-                  className="h-16 w-16 bg-gray-300 flex items-center justify-center rounded-2xl cursor-pointer"
+                  className="w-11 h-11 sm:w-16 sm:h-16 bg-gray-300 flex items-center justify-center rounded-xl cursor-pointer"
                   onClick={sairDaAplicacao}
                 >
                   <Voltar />
                 </div>
               </div>
 
-              <div className="flex flex-col bg-white w-1/2 px-20 rounded-3xl mt-10">
+              <div className="flex flex-col bg-white w-full px-4 sm:px-10 md:px-20 rounded-xl mt-10">
                 <div className="mt-14">
-                  <h2 className="font-nunito font-extrabold text-gray-400 text-4xl">
+                  <h2 className="font-nunito font-extrabold text-gray-400 text-2xl md:text-4xl">
                     Adicione um pet
                   </h2>
                 </div>
 
-                <div className="flex flex-col mb-8">
-                  <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                <div className="flex flex-col mt-8 mb-8">
+                  <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                     Foto de capa
                   </label>
 
-                  <input
-                    className="border border-gray-75 rounded-xl h-16 px-5 placeholder:text-gray-200"
+                  <Input
+                    className="border border-gray-75 h-11 placeholder:text-gray-200"
                     type="text"
                     placeholder="Insira uma URL .png | .jpg | .jpeg"
                     onChange={(e) => setCoverImage(e.target.value)}
                   />
                 </div>
 
-                <div className="flex flex-col mb-8">
-                  <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                <div className="flex flex-col mb-4">
+                  <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                     Fotos
                   </label>
 
-                  <div className="flex justify-between items-center gap-5">
-                    <input
-                      className="border border-gray-75 rounded-xl h-16 px-5 placeholder:text-gray-200 flex-1"
+                  <div className="flex justify-between items-center gap-3">
+                    <Input
+                      className="border border-gray-75 h-11 placeholder:text-gray-200 flex-1"
                       type="text"
                       placeholder="Insira uma URL .png | .jpg | .jpeg"
                       onChange={(e) => setImageUrl(e.target.value)}
                     />
 
-                    <button
-                      className="border border-green-400 h-16 rounded-xl px-5 bg-green-400 text-white hover:bg-white hover:text-gray-400 hover:transition-colors"
+                    <Button
+                      className="border border-green-400 w-11 sm:w-auto h-11 px-5 bg-green-400 text-white hover:bg-white hover:text-gray-400 hover:transition-colors"
                       onClick={() => handleImages()}
                     >
-                      Adicionar
-                    </button>
+                      <p className="hidden sm:flex">Adicionar</p>
+
+                      <Plus size='18'  />
+                    </Button>
                   </div>
 
-                  <ul className="mt-8 flex flex-wrap w-full gap-3 justify-center">
+                  <ul className="mt-4 flex flex-wrap w-full gap-3 justify-center">
                     {imagesUrl.map((image, index) => (
                       <li
                         className="h-[60px] w-[60px] relative bg-red-500 flex items-center rounded-xl text-gray-50"
@@ -192,63 +197,65 @@ export default function CadastroPets() {
                   </ul>
                 </div>
 
-                <div className="flex flex-col mb-8">
-                  <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                <div className="flex flex-col mb-4">
+                  <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                     Requisitos para a doação
                   </label>
 
-                  <div className="flex justify-between items-center gap-5">
-                    <input
-                      className="border border-gray-75 rounded-xl h-16 px-5 placeholder:text-gray-200 flex-1"
+                  <div className="flex justify-between items-center gap-3">
+                    <Input
+                      className="border border-gray-75 h-11 placeholder:text-gray-200 flex-1"
                       type="text"
                       placeholder="Insira o requisito"
                       onChange={(e) => setRequisito(e.target.value)}
                     />
 
-                    <button
-                      className="border border-green-400 h-16 rounded-xl px-5 bg-green-400 text-white hover:bg-white hover:text-gray-400 hover:transition-colors"
+                    <Button
+                       className="border border-green-400 w-11 sm:w-auto h-11 px-5 bg-green-400 text-white hover:bg-white hover:text-gray-400 hover:transition-colors"
                       onClick={() => handleRequisitos()}
                     >
-                      Adicionar
-                    </button>
+                      <p className="hidden sm:flex">Adicionar</p>
+                      <Plus size='18'  />
+                    </Button>
                   </div>
 
-                  <ul className="mt-8 flex flex-wrap w-full gap-3 justify-center">
+                  <ul className="mt-4 flex flex-wrap w-full gap-3 justify-center">
                     {requisitos.map((requisito, index) => (
                       <li
-                        className="w-full px-5 h-14 relative border border-red-500 flex items-center rounded-xl text-gray-400 hover:bg-red-500 hover:text-white cursor-pointer"
+                        className="w-full px-3 justify-between sm:px-5 min-h-11 py-2 relative border border-red-500 flex items-center gap-3 rounded-md text-gray-400 hover:bg-red-500 hover:text-white cursor-pointer"
                         key={`${index}-requisitos`}
                       >
                         <p>{requisito}</p>
 
-                        <button
-                          className="absolute right-5"
+                        <Button
+                          className="px-0"
+                          variant='ghost'
                           onClick={() =>
                             excluirRequisitoDaLista(`${index}-requisitos`)
                           }
                         >
                           <Lixo />
-                        </button>
+                        </Button>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="flex flex-col mb-8">
-                  <div className="flex flex-col mb-8">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                <div className="flex flex-col mb-4">
+                  <div className="flex flex-col mb-4">
+                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Nome
                     </label>
 
-                    <input
-                      className="border border-gray-75 rounded-xl h-16 px-5"
+                    <Input
+                      className="border border-gray-75 h-11 placeholder:text-gray-200"
                       type="text"
                       onChange={(e) => setNome(e.target.value)}
                     />
                   </div>
 
-                  <div className="flex flex-col mb-8">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                  <div className="flex flex-col mb-4">
+                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Sobre
                       <span className="flex items-end ml-10 text-gray-200 text-xs">
                         Máximo de 300 caracteres
@@ -256,18 +263,18 @@ export default function CadastroPets() {
                     </label>
 
                     <textarea
-                      className="resize-none border border-gray-75 rounded-xl h-[120px] px-5 py-4"
+                      className="resize-none border border-gray-75 rounded-md h-[120px] px-4 py-4"
                       onChange={(e) => setSobre(e.target.value)}
                     />
                   </div>
 
-                  <div className="flex flex-col mb-8">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                  <div className="flex flex-col mb-4">
+                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Idade
                     </label>
 
                     <select
-                      className="border border-gray-75 rounded-xl h-16 px-5"
+                      className="border border-gray-75 rounded-md h-11 px-4"
                       onChange={(e) => setIdade(e.target.value)}
                     >
                       <option>Escolha uma opção</option>
@@ -276,13 +283,13 @@ export default function CadastroPets() {
                     </select>
                   </div>
 
-                  <div className="flex flex-col mb-8">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                  <div className="flex flex-col mb-4">
+                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Porte
                     </label>
 
                     <select
-                      className="border border-gray-75 rounded-xl h-16 px-5"
+                       className="border border-gray-75 rounded-md h-11 px-4"
                       onChange={(e) => setPorte(e.target.value)}
                     >
                       <option>Escolha uma opção</option>
@@ -292,13 +299,13 @@ export default function CadastroPets() {
                     </select>
                   </div>
 
-                  <div className="flex flex-col mb-8">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                  <div className="flex flex-col mb-4">
+                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Nível de energia
                     </label>
 
                     <select
-                      className="border border-gray-75 rounded-xl h-16 px-5"
+                      className="border border-gray-75 rounded-md h-11 px-4"
                       onChange={(e) => setNivelEnergia(e.target.value)}
                     >
                       <option>Escolha uma opção</option>
@@ -308,13 +315,13 @@ export default function CadastroPets() {
                     </select>
                   </div>
 
-                  <div className="flex flex-col mb-8">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                  <div className="flex flex-col mb-4">
+                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Nível de independência
                     </label>
 
                     <select
-                      className="border border-gray-75 rounded-xl h-16 px-5"
+                      className="border border-gray-75 rounded-md h-11 px-4"
                       onChange={(e) => setNivelIndependencia(e.target.value)}
                     >
                       <option>Escolha uma opção</option>
@@ -328,13 +335,13 @@ export default function CadastroPets() {
                     </select>
                   </div>
 
-                  <div className="flex flex-col mb-8">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                  <div className="flex flex-col mb-4">
+                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Ambiente
                     </label>
 
                     <select
-                      className="border border-gray-75 rounded-xl h-16 px-5"
+                      className="border border-gray-75 rounded-md h-11 px-4"
                       onChange={(e) => setAmbiente(e.target.value)}
                     >
                       <option>Escolha uma opção</option>
@@ -344,13 +351,13 @@ export default function CadastroPets() {
                     </select>
                   </div>
 
-                  <div className="flex flex-col mb-8">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-normal text-base">
+                  <div className="flex flex-col mb-4">
+                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Gato/Cachorro
                     </label>
 
                     <select
-                      className="border border-gray-75 rounded-xl h-16 px-5"
+                      className="border border-gray-75 rounded-md h-11 px-4"
                       onChange={(e) => setGatoOuCachorro(e.target.value)}
                     >
                       <option>Escolha uma opção</option>
@@ -359,13 +366,13 @@ export default function CadastroPets() {
                     </select>
                   </div>
 
-                  <div className="flex flex-col w-full mt-8 mb-8">
-                    <button
-                      className="w-full border rounded-xl bg-gray-400 text-white py-4 hover:bg-gray-300"
+                  <div className="flex flex-col w-full mt-4 mb-8">
+                    <Button
+                      className="w-full h-11 border rounded-md text-sm font-semibold bg-gray-400 text-white py-4 hover:bg-gray-300"
                       onClick={handleSubmitForm}
                     >
                       Cadastrar
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
