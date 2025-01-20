@@ -6,6 +6,7 @@ import {
   FlechaParaEsquerda,
   Phone,
   Raio,
+  WhatsApp,
 } from '@/icons/icons'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -20,6 +21,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 export default function DetailsPet() {
   const route = useRouter()
@@ -50,7 +52,7 @@ export default function DetailsPet() {
 
       <div className='flex w-screen h-screen'>
         <div className='flex w-full h-full bg-red-150 overflow-hidden'>
-          <div className='flex flex-col w-full h-full items-center overflow-auto pt-20 pb-10'>
+          <div className='flex flex-col w-full h-full items-center overflow-auto pt-28 pb-10'>
             <div className='flex'>
               <h2 className='font-nunito text-lg font-semibold text-gray-200 my-10'>
                 Seu novo amigo
@@ -74,12 +76,12 @@ export default function DetailsPet() {
                 />
               </div>
 
-              <div className='flex justify-center items-center gap-4'>
+              <div className='flex flex-wrap md:justify-center items-center gap-4 px-4 sm:px-10 mt-10'>
                 {pet?.imagesUrl?.map((elem: any, index: number) => {
                   return (
                     <div
                       key={elem}
-                      className={`relative flex p-2 justify-center w-20 h-20 items-center mt-10 cursor-pointer ${
+                      className={`relative flex p-2 justify-center w-20 h-20 items-center  cursor-pointer ${
                         index === numero
                           ? 'border-[3px] border-gray-400 rounded-md'
                           : 'border-[3px] border-gray-200 rounded-md'
@@ -97,17 +99,17 @@ export default function DetailsPet() {
                 })}
               </div>
 
-              <div className='flex flex-col mt-20 px-10'>
-                <h2 className='font-nunito font-extrabold text-5xl text-gray-400'>
+              <div className='flex flex-col mt-10 md:mt-20 px-4 sm:px-10'>
+                <h2 className='font-nunito font-extrabold text-3xl md:text-5xl text-gray-400'>
                   {pet.nome}
                 </h2>
 
-                <p className='font-nunito font-semibold text-lg text-gray-400 my-10'>
+                <p className='font-nunito font-semibold text-lg text-gray-400 py-5 sm:my-10'>
                   {pet.sobre}
                 </p>
               </div>
 
-              <div className='flex justify-between px-10'>
+              <div className='flex flex-col gap-4 pt-6 sm:pt-0 sm:flex-row justify-between px-4 sm:px-10'>
                 <div className='flex flex-col items-center border-[2px] px-8 py-4 border-gray-400 rounded-3xl'>
                   <div className='flex mb-2'>
                     {pet.nivelEnergia === 'pouca' && (
@@ -213,14 +215,14 @@ export default function DetailsPet() {
                 </div>
               </div>
 
-              <div className='flex justify-between px-10 mt-10'>
+              <div className='flex justify-between px-4 sm:px-10 mt-10'>
                 <div className='relative w-full h-[291px]'>
-                  <Image src='/Mapa.png' fill alt='localizacao' />
+                  <Image src='/Mapa.png' fill alt='localizacao' className='object-contain' />
                 </div>
               </div>
 
-              <div className='flex flex-col px-10 mt-10'>
-                <div className='flex border-t-2 border-bg-gray-75 py-10 space-x-8'>
+              <div className='flex flex-col px-4 sm:px-10 mt-10'>
+                <div className='flex border-t-2 border-bg-gray-75 py-10 space-x-3 sm:space-x-8'>
                   <div className='flex w-16 h-16 bg-orange-400 rounded-2xl justify-center items-center'>
                     <Image
                       src={miniLogo}
@@ -230,53 +232,50 @@ export default function DetailsPet() {
                   </div>
 
                   <div className='flex flex-col'>
-                    <h3 className='font-nunito text-gray-400 font-bold text-3xl'>
+                    <h3 className='font-nunito text-gray-400 font-bold text-lg md:text-3xl'>
                       {pet.petId?.organizacao}
                     </h3>
-                    <p className='font-nunito text-gray-400 font-semibold text-base mt-2'>
+                    <p className='font-nunito text-gray-400 font-semibold text-sm md:text-base sm:mt-2'>
                       {pet.petId?.endereco}, {pet.petId?.cidade} -{' '}
                       {pet.petId?.estado}
                     </p>
                   </div>
                 </div>
 
-                <div className='flex w-full pl-24 my-10 border-bg-gray-75 pb-10 border-b-2'>
-                  <button className='flex bg-linear-100 rounded-md px-8 py-4 gap-5'>
-                    <Phone />
-                    {pet.petId?.whatsapp}
-                  </button>
-                </div>
+                <div className='flex w-full border-bg-gray-75 mb-10 border-b-2' />
               </div>
 
-              <div className='flex flex-col px-10'>
-                <h2 className='font-nunito text-gray-400 font-bold text-3xl'>
+              <div className='flex flex-col px-4 sm:px-10'>
+                <h2 className='font-nunito text-gray-400 font-bold text-xl md:text-3xl'>
                   Requisitos para adoção
                 </h2>
-                <div className='mt-14 flex flex-col'>
+                <ul className='mt-6 md:mt-14 flex flex-col'>
                   {pet.requisitosDoacao.map((requisito: any) => (
-                    <div
+                    <li
                       key={pet.id}
-                      className='flex items-center gap-5 px-14 py-4 mb-4 border border-red-500 rounded-xl'
+                      className='flex min-h-11 items-center gap-5 px-4 sm:px-14 py-4 mb-4 border border-red-500 rounded-xl'
                     >
                       <Atencao />
-                      <p className='font-nunito text-red-500 font-semibold text-lg'>
+                      <p className='font-nunito text-red-500 font-semibold'>
                         {requisito}
                       </p>
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
 
-              <div className='flex px-10 mt-20 mb-10'>
-                <div className='flex bg-green-400 w-full h-16 rounded-xl justify-center items-center text-white cursor-pointer'>
+              <div className='flex px-4 sm:px-10 mt-11 md:mt-20 mb-10'>
+                <Button asChild className='flex bg-green-400 w-full h-11 text-white'>
                   <Link
-                    href={`https://api.whatsapp.com/send?phone=${pet.petId?.whatsapp}`}
+                    href={`https://api.whatsapp.com/send?phone=${pet.petId?.whatsapp}&text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20o%20pet%20${pet.nome}`}
                     target='_blank'
                     rel='noreferrer'
                   >
+                    <WhatsApp size={28} />
+
                     Entrar em contato
                   </Link>
-                </div>
+                </Button>
               </div>
             </div>
           </div>

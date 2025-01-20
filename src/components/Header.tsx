@@ -11,9 +11,9 @@ export function Header() {
   const { usuario } = useAuthContext();
 
   return (
-    <header className="w-full h-24 bg-red-500 fixed z-50">
-      <div className="w-full h-full container m-auto px-4">
-        <div className="flex justify-between w-full h-full items-center">
+    <header className="w-full min-h-24 bg-red-500 fixed z-50">
+      <div className="w-full h-full max-w-7xl mx-auto px-4">
+        <div className="flex flex-col py-4 gap-2 sm:flex-row justify-between w-full h-full items-center">
           <div className="w-[215px] h-[56px] relative items-center">
             <Image src={logo} alt="Find a friends" fill />
           </div>
