@@ -101,14 +101,15 @@ export default function Profile() {
       </Head>
       <RoutePrivate>
         <HeaderProfile />
-        <div className='grid grid-cols-5 max-w-7xl px-5 m-auto pt-32 pb-4 md:pb-12'>
-          <div className='col-span-2'>
+        <div className='bg-white w-full h-full'>
+        <div className='grid grid-cols-5 gap-5 max-w-7xl px-5 m-auto pt-32 pb-4 md:pb-12 '>
+          <div className='col-span-5 md:col-span-2'>
             <h2 className='font-nunito text-5xl text-gray-400'>Minha conta</h2>
           </div>
 
           <form
             onSubmit={handleSubmit(handleSaveUser)}
-            className='flex flex-col w-full col-span-3'
+            className='flex flex-col w-full col-span-5 md:col-span-3'
           >
             <div className='w-full flex flex-col gap-5'>
               <div className='flex flex-col gap-2'>
@@ -116,7 +117,7 @@ export default function Profile() {
 
                 <Input
                   placeholder='Nome'
-                  className='h-12 border border-gray-400'
+                  className='h-11 border border-gray-400'
                   defaultValue={usuario.nome}
                   {...register('nome')}
                 />
@@ -133,7 +134,7 @@ export default function Profile() {
 
                 <Input
                   placeholder='Organização'
-                  className='h-12 border border-gray-400'
+                  className='h-11 border border-gray-400'
                   defaultValue={usuario.organizacao}
                   {...register('organizacao')}
                 />
@@ -151,7 +152,7 @@ export default function Profile() {
                 <Input
                   disabled
                   placeholder='E-mail'
-                  className='h-12 border border-gray-400'
+                  className='h-11 border border-gray-400'
                   defaultValue={usuario.email}
                   {...register('email')}
                 />
@@ -162,7 +163,7 @@ export default function Profile() {
 
                 <Input
                   placeholder='CEP'
-                  className='h-12 border border-gray-400'
+                  className='h-11 border border-gray-400'
                   defaultValue={usuario.cep}
                   {...register('cep')}
                 />
@@ -179,7 +180,7 @@ export default function Profile() {
 
                 <Input
                   placeholder='Estado'
-                  className='h-12 border border-gray-400'
+                  className='h-11 border border-gray-400'
                   defaultValue={usuario.estado}
                   {...register('estado')}
                 />
@@ -196,7 +197,7 @@ export default function Profile() {
 
                 <Input
                   placeholder='Cidade'
-                  className='h-12 border border-gray-400'
+                  className='h-11 border border-gray-400'
                   defaultValue={usuario.cidade}
                   {...register('cidade')}
                 />
@@ -213,7 +214,7 @@ export default function Profile() {
 
                 <Input
                   placeholder='Endereço'
-                  className='h-12 border border-gray-400'
+                  className='h-11 border border-gray-400'
                   defaultValue={usuario.endereco}
                   {...register('endereco')}
                 />
@@ -230,7 +231,7 @@ export default function Profile() {
 
                 <Input
                   placeholder='WhatsApp'
-                  className='h-12 border border-gray-400'
+                  className='h-11 border border-gray-400'
                   defaultValue={usuario.whatsApp}
                   {...register('whatsapp')}
                 />
@@ -244,7 +245,7 @@ export default function Profile() {
 
               <Button
                 disabled={isPending}
-                className='bg-green-400 h-12 text-white font-nunito text-base font-semibold hover:bg-green-400 hover:opacity-80 transition'
+                className='bg-green-400 h-11 text-white font-nunito text-base font-semibold hover:bg-green-400 hover:opacity-80 transition'
                 type='submit'
               >
                 Salvar
@@ -252,6 +253,8 @@ export default function Profile() {
             </div>
           </form>
         </div>
+        </div>
+      
       </RoutePrivate>
     </>
   )
