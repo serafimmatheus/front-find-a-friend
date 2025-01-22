@@ -14,10 +14,10 @@ import { SearchFriends } from "./searchFriends";
 
 export function SheetAdvancedFilter() {
 	return (
-		<SheetContent className="bg-red-500 w-full">
+		<SheetContent className="bg-background w-full overflow-auto">
 			<SheetHeader>
-				<SheetTitle className="text-white">Filtros</SheetTitle>
-				<SheetDescription className="text-white pb-8">
+				<SheetTitle className="text-secondary text-start">Filtros</SheetTitle>
+				<SheetDescription className="text-secondary text-start pb-8">
 					Utilize os filtros abaixo para encontrar o pet ideal para você.
 				</SheetDescription>
 			</SheetHeader>

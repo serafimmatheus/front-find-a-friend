@@ -72,12 +72,12 @@ export default function Amigos() {
 
 				<div className="col-span-5 xl:col-span-4 bg-gray-100 w-full h-full px-5">
 					<div className="flex flex-col sm:flex-row gap-5 justify-between items-center pt-40">
-						<h1 className="font-nunito text-xl font-normal text-gray-400">
+						<h1 className="font-nunito text-xl font-normal text-secondary">
 							Encontre <b>{pets?.length ?? 0}</b> amigo(s) na sua cidade.
 						</h1>
 
 						<div className="flex items-center gap-6">
-							<select className="h-11 bg-red-200 rounded-md px-4 optional:text-gray-400 optional:text-base optional:font-nunito optional:font-normal outline-none">
+							<select className="h-11 bg-red-200 rounded-md px-4 optional:text-secondary optional:text-base optional:font-nunito optional:font-normal outline-none">
 								<option value="1">Todos</option>
 								<option value="2">Gatos</option>
 								<option value="3">Cachorros</option>
@@ -98,9 +98,9 @@ export default function Amigos() {
 						</div>
 					</div>
 
-					<ul className="gap-5 overflow-auto mt-8 grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))]">
-						{pets?.length > 0 ? (
-							pets?.map((elem: IPropsPets) => {
+					{pets?.length > 0 && (
+						<ul className="gap-5 overflow-auto mt-8 grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))]">
+							{pets?.map((elem: IPropsPets) => {
 								return (
 									<li
 										key={elem.id}
@@ -134,15 +134,19 @@ export default function Amigos() {
 										</Link>
 									</li>
 								);
-							})
-						) : (
+							})}
+						</ul>
+					)}
+
+					{
+						!pets?.length && (
 							<div className="flex w-full h-1/2 border border-dashed mt-8 items-center justify-center animate-pulse">
 								<p className="text-2xl text-gray-400 font-nunito font-semibold">
 									Não encontramos nenhum pet na sua região
 								</p>
 							</div>
-						)}
-					</ul>
+						)
+					}
 				</div>
 			</main>
 		</>
