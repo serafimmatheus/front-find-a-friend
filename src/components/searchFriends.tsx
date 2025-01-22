@@ -1,8 +1,11 @@
+import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Search } from 'lucide-react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { Button } from './ui/button'
 import {
   Select,
   SelectContent,
@@ -11,10 +14,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select'
-import { Search } from 'lucide-react'
-import { Button } from './ui/button'
-import { useToast } from '@/hooks/use-toast'
-import { useSearchParams } from 'next/navigation'
 
 const states = [
   'AC',
@@ -62,7 +61,6 @@ export const SearchFriends = () => {
   const route = useRouter()
   const [cidades, setCidades] = useState<Root[]>([])
   const { toast } = useToast()
-  const { get } = useSearchParams()
 
   const { control, handleSubmit, watch } = useForm<Friend>({
     resolver: zodResolver(schemaFriend),
@@ -123,7 +121,7 @@ export const SearchFriends = () => {
         control={control}
         name='cidade'
         render={({ field }) => (
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select disabled={!watch('estado')} onValueChange={field.onChange} defaultValue={field.value}>
             <SelectTrigger className='min-w-[65px]'>
               <SelectValue placeholder='Cidade...' />
             </SelectTrigger>
@@ -145,7 +143,7 @@ export const SearchFriends = () => {
       <Button
         type='submit'
         size='icon'
-        className='bg-yellow hover:bg-yellow hover:opacity-90 w-full sm:w-14 h-9'
+        className='bg-accent hover:bg-accent text-secondary hover:opacity-90 w-full sm:w-14 h-9'
       >
         <Search />
       </Button>

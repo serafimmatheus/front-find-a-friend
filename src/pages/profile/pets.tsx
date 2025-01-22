@@ -74,7 +74,7 @@ export default function Pets() {
   return (
     <>
       <Head>
-        <title>Meus pets | Find a friend</title>
+        <title>Meus pets | Brasil Meu Pet</title>
       </Head>
       <RoutePrivate>
         <HeaderProfile />

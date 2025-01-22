@@ -1,11 +1,9 @@
 import { HeaderProfile } from "@/components/HeaderProfile";
-import MyInput from "@/components/MyInput";
 import RoutePrivate from "@/components/routePrivates";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuthContext } from "@/context/hooks/useAuthProvider";
-import { api } from "@/data/api";
 import { saveUser } from "@/https/saveUser";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -97,14 +95,14 @@ export default function Profile() {
 	return (
 		<>
 			<Head>
-				<title>{usuario.nome} | Find a friend</title>
+				<title>{usuario.nome} | Brasil Meu Pet</title>
 			</Head>
 			<RoutePrivate>
 				<HeaderProfile />
-				<div className="bg-red-200 w-full h-full">
+				<div className="bg-background w-full h-full">
 					<div className="grid grid-cols-5 gap-5 max-w-7xl px-5 m-auto pt-32 pb-4 md:pb-12 ">
 						<div className="col-span-5 md:col-span-2">
-							<h2 className="font-nunito text-5xl text-gray-400">
+							<h2 className="font-nunito text-2xl md:text-5xl text-secondary">
 								Minha conta
 							</h2>
 						</div>
@@ -115,11 +113,11 @@ export default function Profile() {
 						>
 							<div className="w-full flex flex-col gap-5">
 								<div className="flex flex-col gap-2">
-									<Label htmlFor="Nome">Nome</Label>
+									<Label className="text-secondary" htmlFor="Nome">Nome</Label>
 
 									<Input
 										placeholder="Nome"
-										className="h-11 border border-gray-400"
+										className="h-11 border-secondary bg-background text-secondary"
 										defaultValue={usuario.nome}
 										{...register("nome")}
 									/>
@@ -132,11 +130,11 @@ export default function Profile() {
 								</div>
 
 								<div className="flex flex-col gap-2">
-									<Label htmlFor="organizacao">Organização</Label>
+									<Label className="text-secondary" htmlFor="organizacao">Organização</Label>
 
 									<Input
 										placeholder="Organização"
-										className="h-11 border border-gray-400"
+										className="h-11 border-secondary bg-background text-secondary"
 										defaultValue={usuario.organizacao}
 										{...register("organizacao")}
 									/>
@@ -149,23 +147,23 @@ export default function Profile() {
 								</div>
 
 								<div className="flex flex-col gap-2">
-									<Label htmlFor="email">E-mail</Label>
+									<Label className="text-secondary" htmlFor="email">E-mail</Label>
 
 									<Input
 										disabled
 										placeholder="E-mail"
-										className="h-11 border border-gray-400"
+										className="h-11 border-secondary bg-background text-secondary"
 										defaultValue={usuario.email}
 										{...register("email")}
 									/>
 								</div>
 
 								<div className="flex flex-col gap-2">
-									<Label htmlFor="cep">CEP</Label>
+									<Label className="text-secondary" htmlFor="cep">CEP</Label>
 
 									<Input
 										placeholder="CEP"
-										className="h-11 border border-gray-400"
+										className="h-11 border-secondary bg-background text-secondary"
 										defaultValue={usuario.cep}
 										{...register("cep")}
 									/>
@@ -178,11 +176,11 @@ export default function Profile() {
 								</div>
 
 								<div className="flex flex-col gap-2">
-									<Label htmlFor="estado">Estado</Label>
+									<Label className="text-secondary" htmlFor="estado">Estado</Label>
 
 									<Input
 										placeholder="Estado"
-										className="h-11 border border-gray-400"
+										className="h-11 border-secondary bg-background text-secondary"
 										defaultValue={usuario.estado}
 										{...register("estado")}
 									/>
@@ -195,11 +193,11 @@ export default function Profile() {
 								</div>
 
 								<div className="flex flex-col gap-2">
-									<Label htmlFor="cidade">Cidade</Label>
+									<Label className="text-secondary" htmlFor="cidade">Cidade</Label>
 
 									<Input
 										placeholder="Cidade"
-										className="h-11 border border-gray-400"
+										className="h-11 border-secondary bg-background text-secondary"
 										defaultValue={usuario.cidade}
 										{...register("cidade")}
 									/>
@@ -212,11 +210,11 @@ export default function Profile() {
 								</div>
 
 								<div className="flex flex-col gap-2">
-									<Label htmlFor="endereco">Endereço</Label>
+									<Label className="text-secondary" htmlFor="endereco">Endereço</Label>
 
 									<Input
 										placeholder="Endereço"
-										className="h-11 border border-gray-400"
+										className="h-11 border-secondary bg-background text-secondary"
 										defaultValue={usuario.endereco}
 										{...register("endereco")}
 									/>
@@ -229,11 +227,11 @@ export default function Profile() {
 								</div>
 
 								<div className="flex flex-col gap-2">
-									<Label htmlFor="whatsApp">WhatsApp</Label>
+									<Label className="text-secondary" htmlFor="whatsApp">WhatsApp</Label>
 
 									<Input
 										placeholder="WhatsApp"
-										className="h-11 border border-gray-400"
+										className="h-11 border-secondary bg-background text-secondary"
 										defaultValue={usuario.whatsApp}
 										{...register("whatsapp")}
 									/>
@@ -247,7 +245,7 @@ export default function Profile() {
 
 								<Button
 									disabled={isPending}
-									className="bg-red-500 h-11 text-white font-nunito text-base font-semibold hover:bg-red-400 hover:opacity-80 transition"
+									className='h-11 font-nunito text-white !bg-gray-400 hover:opacity-80 font-extrabold bg-popover text-sm px-3'
 									type="submit"
 								>
 									Salvar

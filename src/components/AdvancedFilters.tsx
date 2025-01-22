@@ -48,9 +48,9 @@ export function AdvancedFilters() {
 					name="age"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className="text-white">Idade</FormLabel>
+							<FormLabel className="text-secondary">Idade</FormLabel>
 							<Select onValueChange={field.onChange} defaultValue={field.value}>
-								<FormControl className="text-white">
+								<FormControl className="text-secondary">
 									<SelectTrigger>
 										<SelectValue placeholder="Selecione uma idade" />
 									</SelectTrigger>
@@ -71,9 +71,9 @@ export function AdvancedFilters() {
 					name="power"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className="text-white">Idade</FormLabel>
+							<FormLabel className="text-secondary">Idade</FormLabel>
 							<Select onValueChange={field.onChange} defaultValue={field.value}>
-								<FormControl className="text-white">
+								<FormControl className="text-secondary">
 									<SelectTrigger>
 										<SelectValue placeholder="Selecione uma energia" />
 									</SelectTrigger>
@@ -95,9 +95,9 @@ export function AdvancedFilters() {
 					name="size"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className="text-white">Porte do animal</FormLabel>
+							<FormLabel className="text-secondary">Porte do animal</FormLabel>
 							<Select onValueChange={field.onChange} defaultValue={field.value}>
-								<FormControl className="text-white">
+								<FormControl className="text-secondary">
 									<SelectTrigger>
 										<SelectValue placeholder="Selecione uma tamanho" />
 									</SelectTrigger>
@@ -119,11 +119,11 @@ export function AdvancedFilters() {
 					name="level"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className="text-white">
+							<FormLabel className="text-secondary">
 								Nível de independência
 							</FormLabel>
 							<Select onValueChange={field.onChange} defaultValue={field.value}>
-								<FormControl className="text-white">
+								<FormControl className="text-secondary">
 									<SelectTrigger>
 										<SelectValue placeholder="Selecione um nivel" />
 									</SelectTrigger>
@@ -142,7 +142,7 @@ export function AdvancedFilters() {
 
 				<Button
 					type="submit"
-					className="bg-yellow text-black hover:bg-yellow/80"
+					className="bg-accent text-secondary hover:bg-yellow/80"
 				>
 					<Search size={20} />
 					Buscar

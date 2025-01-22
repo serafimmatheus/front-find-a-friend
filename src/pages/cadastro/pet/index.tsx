@@ -1,20 +1,21 @@
 import Image from "next/image";
 import miniLogo from "../../../assets/mini-logo.png";
 
+import { useAuthContext } from "@/context/hooks/useAuthProvider";
+import { api } from "@/data/api";
 import { Lixo, Voltar } from "@/icons/icons";
 import { useRouter } from "next/router";
-import { useAuthContext } from "@/context/hooks/useAuthProvider";
 import { useState } from "react";
-import { api } from "@/data/api";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HeaderProfile } from "@/components/HeaderProfile";
 import RoutePrivate from "@/components/routePrivates";
-import Head from "next/head";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
+import Head from "next/head";
 
 export default function CadastroPets() {
   const route = useRouter();
@@ -35,10 +36,6 @@ export default function CadastroPets() {
 
   const { usuario, sairDaAplicacao, token } = useAuthContext();
 
-  function backPage() {
-    route.push("/");
-  }
-
   function handleImages() {
     setImagesUrl([...imagesUrl, imageUrl]);
   }
@@ -47,13 +44,13 @@ export default function CadastroPets() {
     setRequisitos([...requisitos, requisito]);
   }
 
-  function excluirRequisitoDaLista(index: any) {
+  function excluirRequisitoDaLista(index: number) {
     const newList = [...requisitos];
     newList.splice(index, 1);
     setRequisitos(newList);
   }
 
-  function excluirImagemDaLista(index: any) {
+  function excluirImagemDaLista(index: number) {
     const newList = [...imagesUrl];
     newList.splice(index, 1);
     setImagesUrl(newList);
@@ -82,7 +79,7 @@ export default function CadastroPets() {
     };
 
     await api
-      .post(`/pets`, data, {
+      .post("/pets", data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem(
             "token-find-a-friends"
@@ -101,17 +98,17 @@ export default function CadastroPets() {
   return (
     <>
       <Head>
-        <title>Novo amiguinho | Find a friend</title>
+        <title>Novo amiguinho | Brasil Meu Pet</title>
         <link rel="icon" href="/mini-logo.ico" />
       </Head>
       <RoutePrivate>
         <HeaderProfile />
         <div className="flex w-full">
-          <div className="flex w-full h-full bg-red-150 overflow-hidden pb-20  mt-10">
+          <div className="flex w-full h-full bg-background overflow-hidden pb-20  mt-10">
             <div className="flex flex-col w-full max-w-3xl px-4 mx-auto h-full items-center overflow-auto">
-              <div className="flex gap-8 h-[120px] bg-gray-400 w-full items-center justify-between px-4 sm:px-10 md:px-20 rounded-xl mt-24">
+              <div className="flex gap-8 h-[120px] bg-secondary w-full items-center justify-between px-4 sm:px-10 md:px-20 rounded-xl mt-24">
                 <div className="flex items-center py-20 gap-6">
-                  <div className="flex items-center justify-center w-11 h-11 sm:w-16 sm:h-16 rounded-xl bg-orange-400 p-2">
+                  <div className="flex items-center justify-center w-11 h-11 sm:w-16 sm:h-16 rounded-xl bg-gray-400 p-2">
                     <Image src={miniLogo} alt="loguinho" />
                   </div>
 
@@ -125,12 +122,13 @@ export default function CadastroPets() {
                   </div>
                 </div>
 
-                <div
-                  className="w-11 h-11 sm:w-16 sm:h-16 bg-gray-300 flex items-center justify-center rounded-xl cursor-pointer"
+                <Button
+                  variant='ghost'
+                  className="w-11 h-11 sm:w-16 sm:h-16 flex items-center justify-center rounded-xl cursor-pointer"
                   onClick={sairDaAplicacao}
                 >
-                  <Voltar />
-                </div>
+                  <Voltar color="#ffffff" size={34} />
+                </Button>
               </div>
 
               <div className="flex flex-col bg-white w-full px-4 sm:px-10 md:px-20 rounded-xl mt-10">
@@ -141,12 +139,12 @@ export default function CadastroPets() {
                 </div>
 
                 <div className="flex flex-col mt-8 mb-8">
-                  <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
+                  <Label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                     Foto de capa
-                  </label>
+                  </Label>
 
                   <Input
-                    className="border border-gray-75 h-11 placeholder:text-gray-200"
+                    className="h-11 bg-transparent border-secondary text-secondary"
                     type="text"
                     placeholder="Insira uma URL .png | .jpg | .jpeg"
                     onChange={(e) => setCoverImage(e.target.value)}
@@ -154,20 +152,20 @@ export default function CadastroPets() {
                 </div>
 
                 <div className="flex flex-col mb-4">
-                  <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
+                  <Label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                     Fotos
-                  </label>
+                  </Label>
 
                   <div className="flex justify-between items-center gap-3">
                     <Input
-                      className="border border-gray-75 h-11 placeholder:text-gray-200 flex-1"
+                      className="h-11 bg-transparent border-secondary text-secondary"
                       type="text"
                       placeholder="Insira uma URL .png | .jpg | .jpeg"
                       onChange={(e) => setImageUrl(e.target.value)}
                     />
 
                     <Button
-                      className="border border-green-400 w-11 sm:w-auto h-11 px-5 bg-green-400 text-white hover:bg-white hover:text-gray-400 hover:transition-colors"
+                      className="w-11 sm:w-auto h-11"
                       onClick={() => handleImages()}
                     >
                       <p className="hidden sm:flex">Adicionar</p>
@@ -177,41 +175,42 @@ export default function CadastroPets() {
                   </div>
 
                   <ul className="mt-4 flex flex-wrap w-full gap-3 justify-center">
-                    {imagesUrl.map((image, index) => (
+                    {imagesUrl.map((image) => (
                       <li
-                        className="h-[60px] w-[60px] relative bg-red-500 flex items-center rounded-xl text-gray-50"
-                        key={index}
+                        className="h-[60px] w-[60px] relative bg-destructive-foreground flex items-center rounded-xl text-gray-50"
+                        key={image}
                       >
                         <div className="relative h-full w-full">
                           <Image src={image} fill alt={image} />
                         </div>
 
-                        <button
-                          className="absolute right-5"
-                          onClick={() => excluirImagemDaLista(index)}
+                        <Button
+                          variant='ghost'
+                          className="absolute right-5 px-0 py-0 hover:bg-transparent"
+                          onClick={() => excluirImagemDaLista(imagesUrl.indexOf(image))}
                         >
-                          <Lixo />
-                        </button>
+                          <Lixo color="#ffffff" />
+                        </Button>
                       </li>
                     ))}
                   </ul>
                 </div>
 
                 <div className="flex flex-col mb-4">
-                  <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
+                  <Label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                     Requisitos para a doação
-                  </label>
+                  </Label>
 
                   <div className="flex justify-between items-center gap-3">
                     <Input
-                      className="border border-gray-75 h-11 placeholder:text-gray-200 flex-1"
+                      className="h-11 bg-transparent border-secondary text-secondary"
                       type="text"
                       placeholder="Insira o requisito"
                       onChange={(e) => setRequisito(e.target.value)}
                     />
 
                     <Button
-                       className="border border-green-400 w-11 sm:w-auto h-11 px-5 bg-green-400 text-white hover:bg-white hover:text-gray-400 hover:transition-colors"
+                      className="w-11 sm:w-auto h-11"
                       onClick={() => handleRequisitos()}
                     >
                       <p className="hidden sm:flex">Adicionar</p>
@@ -220,21 +219,21 @@ export default function CadastroPets() {
                   </div>
 
                   <ul className="mt-4 flex flex-wrap w-full gap-3 justify-center">
-                    {requisitos.map((requisito, index) => (
+                    {requisitos.map((requisito) => (
                       <li
-                        className="w-full px-3 justify-between sm:px-5 min-h-11 py-2 relative border border-red-500 flex items-center gap-3 rounded-md text-gray-400 hover:bg-red-500 hover:text-white cursor-pointer"
-                        key={`${index}-requisitos`}
+                        className="group w-full px-3 justify-between sm:px-5 min-h-11 py-2 relative border border-destructive-foreground flex items-center gap-3 rounded-md text-gray-400 hover:bg-destructive-foreground cursor-pointer"
+                        key={requisito}
                       >
-                        <p>{requisito}</p>
+                        <p className="text-destructive group-hover:text-muted-foreground">{requisito}</p>
 
                         <Button
-                          className="px-0"
+                          className="px-0 py-0 hover:bg-transparent"
                           variant='ghost'
                           onClick={() =>
-                            excluirRequisitoDaLista(`${index}-requisitos`)
+                            excluirRequisitoDaLista(requisitos.indexOf(requisito))
                           }
                         >
-                          <Lixo />
+                          <Lixo color="#C4252A" />
                         </Button>
                       </li>
                     ))}
@@ -243,38 +242,38 @@ export default function CadastroPets() {
 
                 <div className="flex flex-col mb-4">
                   <div className="flex flex-col mb-4">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
+                    <Label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Nome
-                    </label>
+                    </Label>
 
                     <Input
-                      className="border border-gray-75 h-11 placeholder:text-gray-200"
+                      className="h-11 bg-transparent border-secondary text-secondary"
                       type="text"
                       onChange={(e) => setNome(e.target.value)}
                     />
                   </div>
 
                   <div className="flex flex-col mb-4">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
+                    <Label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Sobre
-                      <span className="flex items-end ml-10 text-gray-200 text-xs">
+                      <span className="flex ml-4 text-gray-200 text-xs">
                         Máximo de 300 caracteres
                       </span>
-                    </label>
+                    </Label>
 
                     <textarea
-                      className="resize-none border border-gray-75 rounded-md h-[120px] px-4 py-4"
+                      className="resize-none border border-secondary rounded-md h-[120px] px-4 py-4"
                       onChange={(e) => setSobre(e.target.value)}
                     />
                   </div>
 
                   <div className="flex flex-col mb-4">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
+                    <Label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Idade
-                    </label>
+                    </Label>
 
                     <select
-                      className="border border-gray-75 rounded-md h-11 px-4"
+                      className="border border-secondary rounded-md h-11 px-4"
                       onChange={(e) => setIdade(e.target.value)}
                     >
                       <option>Escolha uma opção</option>
@@ -284,12 +283,12 @@ export default function CadastroPets() {
                   </div>
 
                   <div className="flex flex-col mb-4">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
+                    <Label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Porte
-                    </label>
+                    </Label>
 
                     <select
-                       className="border border-gray-75 rounded-md h-11 px-4"
+                      className="border border-secondary rounded-md h-11 px-4"
                       onChange={(e) => setPorte(e.target.value)}
                     >
                       <option>Escolha uma opção</option>
@@ -300,12 +299,12 @@ export default function CadastroPets() {
                   </div>
 
                   <div className="flex flex-col mb-4">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
+                    <Label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Nível de energia
-                    </label>
+                    </Label>
 
                     <select
-                      className="border border-gray-75 rounded-md h-11 px-4"
+                      className="border border-secondary rounded-md h-11 px-4"
                       onChange={(e) => setNivelEnergia(e.target.value)}
                     >
                       <option>Escolha uma opção</option>
@@ -316,12 +315,12 @@ export default function CadastroPets() {
                   </div>
 
                   <div className="flex flex-col mb-4">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
+                    <Label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Nível de independência
-                    </label>
+                    </Label>
 
                     <select
-                      className="border border-gray-75 rounded-md h-11 px-4"
+                      className="border border-secondary rounded-md h-11 px-4"
                       onChange={(e) => setNivelIndependencia(e.target.value)}
                     >
                       <option>Escolha uma opção</option>
@@ -336,12 +335,12 @@ export default function CadastroPets() {
                   </div>
 
                   <div className="flex flex-col mb-4">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
+                    <Label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Ambiente
-                    </label>
+                    </Label>
 
                     <select
-                      className="border border-gray-75 rounded-md h-11 px-4"
+                      className="border border-secondary rounded-md h-11 px-4"
                       onChange={(e) => setAmbiente(e.target.value)}
                     >
                       <option>Escolha uma opção</option>
@@ -352,12 +351,12 @@ export default function CadastroPets() {
                   </div>
 
                   <div className="flex flex-col mb-4">
-                    <label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
+                    <Label className="flex mb-2 font-nunito items-center text-gray-400 font-semibold text-sm">
                       Gato/Cachorro
-                    </label>
+                    </Label>
 
                     <select
-                      className="border border-gray-75 rounded-md h-11 px-4"
+                      className="border border-secondary rounded-md h-11 px-4"
                       onChange={(e) => setGatoOuCachorro(e.target.value)}
                     >
                       <option>Escolha uma opção</option>

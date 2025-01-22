@@ -52,18 +52,18 @@ export default function Amigos() {
 	return (
 		<>
 			<Head>
-				<title>Pets | Find a friend</title>
+				<title>{estado} {cidade} | Brasil Meu Pet</title>
 			</Head>
 			<Header />
-			<main className="bg-red-500 w-full min-h-screen grid grid-cols-5">
-				<div className="hidden xl:flex xl:col-span-1 flex-col w-full h-full bg-red-500">
-					<div className="bg-red-600 py-16 flex flex-col px-5">
+			<main className="bg-card w-full min-h-screen grid grid-cols-5">
+				<div className="hidden xl:flex xl:col-span-1 flex-col w-full h-full bg-card-foreground">
+					<div className="bg-card py-16 flex flex-col px-5">
 						<div className="flex pt-20">
 							<SearchFriends />
 						</div>
 					</div>
 
-					<h2 className="text-white font-nunito font-extrabold text-xl px-5 py-8">
+					<h2 className="text-secondary font-nunito font-extrabold text-xl px-5 py-8">
 						Filtros
 					</h2>
 

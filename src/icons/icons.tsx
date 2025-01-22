@@ -1,14 +1,20 @@
-export const Search = () => (
+interface IProps {
+  size?: number
+  color?: string
+}
+
+export const Search = ({color = '#0B7499', size = 22}:IProps) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
     viewBox='0 0 24 24'
     strokeWidth={2.5}
-    stroke='#0D3B66'
+    stroke={color}
     className='w-6 h-6'
-    width={22}
-    height={22}
+    width={size}
+    height={size}
   >
+    <title>Search Icon</title>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -17,17 +23,18 @@ export const Search = () => (
   </svg>
 )
 
-export const FlechaParaEsquerda = () => (
+export const FlechaParaEsquerda = ({color = '#0B7499', size = 22}:IProps) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
     viewBox='0 0 24 24'
     strokeWidth={2.5}
-    stroke='#0D3B66'
+    stroke={color}
     className='w-6 h-6'
-    width={22}
-    height={22}
+    width={size}
+    height={size}
   >
+    <title>Left Arrow Icon</title>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -36,11 +43,7 @@ export const FlechaParaEsquerda = () => (
   </svg>
 )
 
-interface IRaioProps {
-  color?: string
-}
-
-export const Raio = ({ color = '#0D3B66' }: IRaioProps) => (
+export const Raio = ({color = '#0B7499', size = 22}:IProps) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
@@ -48,9 +51,10 @@ export const Raio = ({ color = '#0D3B66' }: IRaioProps) => (
     strokeWidth={2.5}
     stroke={color}
     className='w-6 h-6'
-    width={22}
-    height={22}
+    width={size}
+    height={size}
   >
+    <title>Raio</title>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -59,17 +63,18 @@ export const Raio = ({ color = '#0D3B66' }: IRaioProps) => (
   </svg>
 )
 
-export const EspacoAmplo = () => (
+export const EspacoAmplo = ({color = '#0B7499', size = 22}:IProps) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
     viewBox='0 0 24 24'
     strokeWidth={2.5}
-    stroke='#0D3B66'
+    stroke={color}
     className='w-6 h-6'
-    width={22}
-    height={22}
+    width={size}
+    height={size}
   >
+    <title>Espaço amplo</title>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -78,17 +83,17 @@ export const EspacoAmplo = () => (
   </svg>
 )
 
-export const Phone = () => (
+export const Phone = ({color = '#0B7499', size = 22}:IProps) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
     viewBox='0 0 24 24'
     strokeWidth={1.5}
-    stroke='#0D3B66'
-    className='w-6 h-6'
-    width={22}
-    height={22}
+    stroke={color}
+    width={size}
+    height={size}
   >
+    <title>Telefone</title>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -97,15 +102,17 @@ export const Phone = () => (
   </svg>
 )
 
-export const Atencao = () => (
+export const Atencao = ({color = '#0B7499', size = 22}:IProps) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
     viewBox='0 0 24 24'
     strokeWidth={1.5}
-    stroke='#F15156'
-    className='w-6 h-6'
+    stroke={color}
+    width={size}
+    height={size}
   >
+    <title>Atenção</title>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -114,15 +121,17 @@ export const Atencao = () => (
   </svg>
 )
 
-export const Voltar = () => (
+export const Voltar = ({color = '#0B7499', size = 22}:IProps) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
     viewBox='0 0 24 24'
     strokeWidth={2.5}
-    stroke='#ffffff'
-    className='w-6 h-6'
+    stroke={color}
+    width={size}
+    height={size}
   >
+    <title>Voltar</title>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -131,15 +140,17 @@ export const Voltar = () => (
   </svg>
 )
 
-export const Lixo = () => (
+export const Lixo = ({color = '#0B7499', size = 22}:IProps) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
     viewBox='0 0 24 24'
     strokeWidth={1.5}
-    stroke='currentColor'
-    className='w-6 h-6'
+    stroke={color}
+    width={size}
+    height={size}
   >
+    <title>Lixo</title>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -148,12 +159,9 @@ export const Lixo = () => (
   </svg>
 )
 
-interface IWppProps {
-  size?: number
-}
-
-export const WhatsApp = ({size = 50}: IWppProps) => (
+export const WhatsApp = ({color = '#0B7499', size = 50}:IProps) => (
   <svg width={size} height={size} viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <title>WhatsApp</title>
     <g clip-path="url(#clip0_3_4)">
     <path d="M1.16161 50C0.880848 50 0.607717 49.889 0.405156 49.6841C0.138128 49.4141 0.0351314 49.0219 0.135458 48.6553L3.38596 36.7855C1.36226 33.1261 0.295293 28.9864 0.296819 24.7841C0.302541 11.1179 11.4239 0 25.0889 0C31.7169 0.00267029 37.9448 2.58446 42.6258 7.26891C47.306 11.9537 49.8825 18.1812 49.8806 24.8039C49.8745 38.4705 38.7531 49.5892 25.0889 49.5892C25.0889 49.5892 25.0786 49.5892 25.0782 49.5892C21.0869 49.5876 17.1299 48.6149 13.6067 46.7724L1.43131 49.9653C1.34204 49.9886 1.25125 50 1.16161 50Z" fill="#E5E5E5"/>
     <path d="M1.16156 48.9359L4.52765 36.6439C2.45131 33.0462 1.35916 28.9653 1.36069 24.7844C1.36603 11.705 12.0098 1.0639 25.0889 1.0639C31.4358 1.06657 37.3932 3.53697 41.8732 8.02075C46.3528 12.5045 48.819 18.4646 48.8167 24.8035C48.811 37.8825 38.1657 48.5251 25.0889 48.5251C25.0881 48.5251 25.0893 48.5251 25.0889 48.5251H25.0786C21.1075 48.5236 17.2058 47.5276 13.7402 45.6374L1.16156 48.9359ZM14.3227 41.3432L15.0433 41.7701C18.0706 43.5668 21.5416 44.517 25.0813 44.5189H25.0889C35.9585 44.5189 44.8056 35.6734 44.8102 24.8019C44.8121 19.5335 42.7628 14.5793 39.0393 10.8528C35.3154 7.12621 30.3643 5.07276 25.0962 5.07047C14.2178 5.07047 5.37108 13.9148 5.36689 24.7859C5.36536 28.5113 6.40754 32.1391 8.38203 35.2786L8.85124 36.0248L6.85844 43.3001L14.3227 41.3432Z" fill="white"/>
