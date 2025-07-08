@@ -1,4 +1,3 @@
-import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Search } from 'lucide-react'
 import { useRouter } from 'next/router'
@@ -58,12 +57,16 @@ const schemaFriend = z.object({
 type Friend = z.infer<typeof schemaFriend>
 
 export const SearchFriends = () => {
-  const route = useRouter()
-  const [cidades, setCidades] = useState<Root[]>([])
-  const { toast } = useToast()
+  const router = useRouter()
+  const { isReady, query, push } = router
 
-  const { control, handleSubmit, watch } = useForm<Friend>({
+  const [formInitialized, setFormInitialized] = useState(false)
+
+  const [cidades, setCidades] = useState<Root[]>([])
+
+  const { control, handleSubmit, watch, setValue } = useForm<Friend>({
     resolver: zodResolver(schemaFriend),
+    mode: 'onChange',
   })
 
   const fetchCidades = async (estado: string) => {
@@ -77,19 +80,22 @@ export const SearchFriends = () => {
   }
 
   const handleSubmitFriend = (data: Friend) => {
-    if (!data.estado || !data.cidade) {
-      console.log('deu erro')
-      return toast({
-        title: 'Erro',
-        description: 'Preencha todos os campos',
-      })
-    }
-    route.push(`/amigos/${data.estado}/${data.cidade}`)
+    push(`/amigos/${data.estado}/${data.cidade}`)
   }
 
   useEffect(() => {
     fetchCidades(watch('estado'))
   }, [watch('estado')])
+
+  useEffect(() => {
+    if (isReady && !formInitialized) {
+      const estado = (query.estado as string) || ''
+      const cidade = (query.cidade as string) || ''
+      setValue('estado', estado)
+      setValue('cidade', cidade)
+      setFormInitialized(true)
+    }
+  }, [isReady, query, setValue, formInitialized])
 
   return (
     <form
@@ -121,7 +127,11 @@ export const SearchFriends = () => {
         control={control}
         name='cidade'
         render={({ field }) => (
-          <Select disabled={!watch('estado')} onValueChange={field.onChange} defaultValue={field.value}>
+          <Select
+            disabled={!watch('estado')}
+            onValueChange={field.onChange}
+            defaultValue={field.value}
+          >
             <SelectTrigger className='min-w-[65px]'>
               <SelectValue placeholder='Cidade...' />
             </SelectTrigger>
